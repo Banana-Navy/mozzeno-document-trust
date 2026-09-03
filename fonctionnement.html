@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; connect-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'">
+    <meta name="description" content="Pipeline complet de Mozzeno Document Trust, de l’upload contrôlé à la revue humaine.">
+    <meta name="theme-color" content="#222b54">
+    <title>Fonctionnement · Mozzeno Document Trust</title>
+    <link rel="icon" href="assets/brand/banana-navy-logo.png" type="image/png">
+    <link rel="stylesheet" href="assets/styles.css">
+    <script defer src="assets/app.js"></script>
+  </head>
+  <body data-page="fonctionnement">
+    <a class="skip-link" href="#contenu">Aller au contenu</a>
+    <div data-site-header></div>
+    <noscript><div class="noscript-note">Les huit étapes sont lisibles, mais leur panneau interactif nécessite JavaScript.</div></noscript>
+
+    <main id="contenu">
+      <section class="subhero">
+        <div class="shell">
+          <nav class="breadcrumb" aria-label="Fil d’Ariane"><a href="index.html">Accueil</a><span>›</span><span>Fonctionnement</span></nav>
+          <p class="eyebrow" style="margin-top:28px">Du fichier au rapport</p>
+          <h1>Un pipeline borné, traçable et <span class="accent">fail-safe.</span></h1>
+          <p class="lead">Chaque étape a une responsabilité précise. Les octets originaux restent distincts des dérivés, les détecteurs restent distincts de la policy, et la policy reste distincte de la décision humaine.</p>
+          <div class="status-pills"><span class="pill pill-delivered">Pipeline M1 livré</span><span class="pill pill-target">Infrastructure cible séparée</span><span class="pill pill-gate">Production non ouverte</span></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="shell">
+          <div class="section-head" data-reveal>
+            <p class="eyebrow">Parcours interactif</p>
+            <h2>Huit étapes, une seule chaîne de preuve.</h2>
+            <p>Sélectionnez une étape pour voir son contrôle, sa sortie et sa limite. Le moteur ne saute pas directement du fichier à un verdict opaque.</p>
+          </div>
+
+          <div class="pipeline-layout">
+            <div class="pipeline-nav" role="tablist" aria-label="Étapes du pipeline" data-reveal>
+              <button class="pipeline-step" type="button" role="tab" aria-selected="true" data-pipeline-step data-number="01" data-title="Créer une soumission opaque" data-description="L’API crée un UUID sans information personnelle et retourne un statut PENDING_UPLOAD. Une clé d’idempotence permet de rejouer la création sans multiplier les dossiers." data-control="Contrat Pydantic strict, UUID et clé d’idempotence hashée." data-output="submission_id + URL d’upload versionnée." data-limit="L’en-tête X-Actor-Role n’est qu’un mécanisme de développement." data-state="LIVRÉ M1"><b>01</b><span>Soumission</span><small>API</small></button>
+              <button class="pipeline-step" type="button" role="tab" aria-selected="false" data-pipeline-step data-number="02" data-title="Contrôler l’entrée avant parsing" data-description="Le service contrôle le type application/pdf, la limite de 15 MiB et le préfixe PDF avant le parsing structurel. Si ces contrôles passent, l’original est conservé et le job est mis en file." data-control="MIME déclaré, taille et magic bytes avant stockage." data-output="Erreur HTTP bornée ou soumission QUEUED." data-limit="Le quota configuré de 10 pages est vérifié ensuite par l’analyse structurelle ; le contrôle polyglotte et l’antivirus complets restent une cible production." data-state="LIVRÉ M1"><b>02</b><span>Intake sécurisé</span><small>15 MiB</small></button>
+              <button class="pipeline-step" type="button" role="tab" aria-selected="false" data-pipeline-step data-number="03" data-title="Conserver l’original avant transformation" data-description="Les octets reçus sont écrits sans conversion puis hashés en SHA-256. Le stockage M1 refuse l’écrasement applicatif de l’original pour garder une référence vérifiable." data-control="Écriture atomique, permissions locales et SHA-256 exact." data-output="original_object_key + taille + empreinte SHA-256." data-limit="Le filesystem local n’est pas un Object Lock ou un coffre immuable de production." data-state="LIVRÉ M1"><b>03</b><span>Original + hash</span><small>BYTE-FOR-BYTE</small></button>
+              <button class="pipeline-step" type="button" role="tab" aria-selected="false" data-pipeline-step data-number="04" data-title="Découpler la requête de l’analyse" data-description="Une queue asyncio bornée passe la soumission à un worker local. Une erreur inattendue sur un job ne tue plus la file et déclenche une récupération INCONCLUSIVE." data-control="File bornée, timeout et statut PROCESSING." data-output="Job analysé ou rapport INCONCLUSIVE avec reason_code." data-limit="La queue reste volatile, sans retry persistant, DLQ ou haute disponibilité." data-state="LIVRÉ M1"><b>04</b><span>Orchestration</span><small>ASYNC</small></button>
+              <button class="pipeline-step" type="button" role="tab" aria-selected="false" data-pipeline-step data-number="05" data-title="Exécuter des détecteurs indépendants" data-description="Les modules vérifient d’abord le format, puis analysent la structure et le quota de 1 à 10 pages avant d’inspecter métadonnées, polices, images, signatures, rendu, pHash et doublon exact. Chacun produit des faits et peut s’abstenir." data-control="Détecteurs locaux, versionnés, déterministes et court-circuités sur entrée invalide." data-output="Faits, tags, indicateurs, limites et versions." data-limit="OCR, manipulation locale, near-duplicates et modèles ML ne sont pas livrés en M1." data-state="LIVRÉ M1"><b>05</b><span>Détecteurs</span><small>LOCAL</small></button>
+              <button class="pipeline-step" type="button" role="tab" aria-selected="false" data-pipeline-step data-number="06" data-title="Appliquer une policy explicable" data-description="La policy agrège les indicateurs selon des règles versionnées. HIGH_RISK exige plusieurs catégories de preuves indépendantes et fortes. Un échec central reste INCONCLUSIVE." data-control="Règles déterministes séparées des détecteurs." data-output="Verdict + action de traitement + reason_codes." data-limit="Aucun score d’authenticité et aucune recommandation de refus de crédit." data-state="LIVRÉ M1"><b>06</b><span>Policy</span><small>V1</small></button>
+              <button class="pipeline-step" type="button" role="tab" aria-selected="false" data-pipeline-step data-number="07" data-title="Présenter une preuve lisible" data-description="Le rapport JSON conserve les versions et limites. L’interface affiche une miniature PNG, les indicateurs, leurs zones et l’action de traitement, sans charger le PDF actif." data-control="Schémas stables, CSP, cache no-store et preview raster." data-output="Rapport consultable, export JSON et aperçu PNG." data-limit="Le PDF export horodaté et les comparaisons avancées restent à développer." data-state="LIVRÉ M1"><b>07</b><span>Rapport</span><small>JSON + PNG</small></button>
+              <button class="pipeline-step" type="button" role="tab" aria-selected="false" data-pipeline-step data-number="08" data-title="Enregistrer un feedback humain" data-description="L’analyste peut marquer CONFIRMED_FRAUD, LEGITIMATE, FALSE_POSITIVE ou UNCERTAIN. Le feedback reste auditable et séparé du verdict technique." data-control="RBAC de développement, commentaire borné et audit." data-output="Feedback versionnable relié à la soumission." data-limit="Le feedback n’entre jamais automatiquement dans un entraînement." data-state="LIVRÉ M1"><b>08</b><span>Revue humaine</span><small>HITL</small></button>
+            </div>
+
+            <article class="pipeline-detail" data-pipeline-detail data-reveal aria-live="polite">
+              <span class="pipeline-detail-number" data-detail-number>01</span>
+              <h2 data-detail-title>Créer une soumission opaque</h2>
+              <p data-detail-description></p>
+              <div class="detail-facts">
+                <div><b>Contrôle</b><span data-detail-control></span></div>
+                <div><b>Sortie</b><span data-detail-output></span></div>
+                <div><b>Limite</b><span data-detail-limit></span></div>
+                <div><b>État</b><span data-detail-state></span></div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section surface-section">
+        <div class="shell">
+          <div class="section-head" data-reveal>
+            <p class="eyebrow">Deux chemins de sortie sûrs</p>
+            <h2>Analyser quand c’est possible. S’abstenir quand il le faut.</h2>
+          </div>
+          <div class="comparison-grid">
+            <article class="comparison-card" data-reveal>
+              <span class="pill pill-delivered">Analyse complète</span>
+              <h3>Les contrôles terminent</h3>
+              <ul><li>Les faits sont conservés séparément.</li><li>Les signaux exposent leur force et leurs limites.</li><li>La policy produit NORMAL, WARNING ou, sous conditions strictes, HIGH_RISK.</li><li>NORMAL ne devient jamais “authentique”.</li></ul>
+            </article>
+            <article class="comparison-card target" data-reveal>
+              <span class="pill pill-warning">Analyse incomplète</span>
+              <h3>Le système s’abstient</h3>
+              <ul><li>Timeout, original illisible ou détecteur central indisponible.</li><li>Le résultat devient INCONCLUSIVE avec un code de raison.</li><li>La policy impose MANUAL_REVIEW ou REQUEST_NEW_ORIGINAL.</li><li>Un job en erreur ne bloque pas les jobs suivants.</li></ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="shell">
+          <div class="section-head" data-reveal>
+            <p class="eyebrow">Contrat API initial</p>
+            <h2>Une intégration simple, versionnée et sans décision crédit.</h2>
+            <p>Création, upload, statut, vues spécialisées, rapport, feedback et suppression sont exposés sous <code>/v1</code>. OpenAPI est généré depuis les mêmes schémas que le runtime.</p>
+          </div>
+          <div class="bento-grid">
+            <article class="bento half" data-reveal><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><use href="#i-clipboard"></use></svg></span><h3>Écrire sans ambiguïté</h3><p><code>POST /v1/submissions</code>, puis <code>PUT /v1/submissions/{id}/content</code>. L’original est immuable au niveau applicatif et les erreurs restent structurées.</p></article>
+            <article class="bento half mint" data-reveal><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><use href="#i-document"></use></svg></span><h3>Lire selon le besoin</h3><p>Statut, fraud, quality, classification, report et thumbnail sont séparés pour limiter les données retournées à chaque usage.</p></article>
+            <article class="bento half purple" data-reveal><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><use href="#i-user"></use></svg></span><h3>Tracer le jugement humain</h3><p><code>PUT /feedback</code> conserve la qualification analyste. Elle ne remplace pas le verdict forensique et ne déclenche aucun entraînement.</p></article>
+            <article class="bento half navy" data-reveal><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><use href="#i-lock"></use></svg></span><h3>Préparer la suppression</h3><p><code>DELETE</code> est réservé au rôle administrateur dans M1. La suppression production devra couvrir objets, dérivés, index, caches et rétentions légales.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-compact mint-section">
+        <div class="shell decision-banner" data-reveal>
+          <div><h2>Voir les preuves produites à chaque étape.</h2><p>La page Détecteurs détaille les contrôles, leur contrat d’indicateur et l’ordre réel de la policy.</p></div>
+          <a class="button button-primary" href="detecteurs.html">Ouvrir les détecteurs</a>
+        </div>
+      </section>
+    </main>
+
+    <div data-site-footer></div>
+  </body>
+</html>

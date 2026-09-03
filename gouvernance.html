@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; connect-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'">
+    <meta name="description" content="Gouvernance, readiness et parcours d’autorisation des données pour Mozzeno Document Trust.">
+    <meta name="theme-color" content="#222b54">
+    <title>Gouvernance · Mozzeno Document Trust</title>
+    <link rel="icon" href="assets/brand/banana-navy-logo.png" type="image/png">
+    <link rel="stylesheet" href="assets/styles.css">
+    <script defer src="assets/app.js"></script>
+  </head>
+  <body data-page="gouvernance">
+    <a class="skip-link" href="#contenu">Aller au contenu</a>
+    <div data-site-header></div>
+    <noscript><div class="noscript-note">Les gates et responsabilités restent lisibles sans JavaScript.</div></noscript>
+
+    <main id="contenu">
+      <section class="subhero">
+        <div class="shell">
+          <nav class="breadcrumb" aria-label="Fil d’Ariane"><a href="index.html">Accueil</a><span>›</span><span>Gouvernance</span></nav>
+          <p class="eyebrow" style="margin-top:28px">Data readiness avant data access</p>
+          <h1>La base historique est une possibilité, pas une <span class="accent">permission.</span></h1>
+          <p class="lead">Aucun document privé, label, hash perceptuel ou embedding ne peut être utilisé parce qu’il “existe déjà”. Finalité, base juridique, minimisation, sécurité et droits doivent être décidés avant toute connexion.</p>
+          <div class="status-pills"><span class="pill pill-delivered">R0 synthétique autorisé</span><span class="pill pill-gate">R1–R5 bloqués</span><span class="pill pill-warning">NOT_READY_FOR_REAL_DATA</span></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="shell">
+          <div class="section-head" data-reveal>
+            <p class="eyebrow">Niveaux d’autorisation</p>
+            <h2>Le parcours s’arrête aujourd’hui à R0.</h2>
+            <p>Chaque niveau ouvre un usage précis et exige des preuves supplémentaires. Une autorisation de profiling ne vaut pas autorisation d’entraînement.</p>
+          </div>
+          <div class="governance-stepper">
+            <article class="gov-step is-open" data-level="R0" data-reveal><h3>Synthétique</h3><p>Fixtures sans PII créées dans le dépôt, ground truth explicite et génération reproductible.</p><span class="pill pill-delivered">Ouvert</span></article>
+            <article class="gov-step" data-level="R1" data-reveal><h3>Schémas</h3><p>Structure des tables, dictionnaire des champs et volumes, sans ligne ni contenu réel.</p><span class="pill pill-gate">À approuver</span></article>
+            <article class="gov-step" data-level="R2" data-reveal><h3>Profiling in situ</h3><p>Agrégats non destructifs avec cellules rares supprimées et aucune sortie documentaire.</p><span class="pill pill-gate">GOV-1</span></article>
+            <article class="gov-step" data-level="R3" data-reveal><h3>Dataset gouverné</h3><p>Manifest versionné, provenance, base juridique, rétention et suppression opérationnelle.</p><span class="pill pill-gate">GOV-3</span></article>
+            <article class="gov-step" data-level="R4" data-reveal><h3>Shadow evaluation</h3><p>Mesure sans action automatique, capacité de revue et validation indépendante.</p><span class="pill pill-gate">GOV-4</span></article>
+            <article class="gov-step" data-level="R5" data-reveal><h3>Production</h3><p>Monitoring, dérive, audit, recours, rollback et sécurité démontrée.</p><span class="pill pill-gate">GOV-5</span></article>
+          </div>
+          <div class="callout warning" style="margin-top:22px" data-reveal><p><strong>Gate absolu :</strong> aucune requête, aucun export et aucun entraînement sur la production tant que les validations écrites DPO, Legal, Security et Data Owner ne sont pas réunies.</p></div>
+        </div>
+      </section>
+
+      <section class="section surface-section">
+        <div class="shell">
+          <div class="section-head" data-reveal>
+            <p class="eyebrow">Pourquoi les bases de références sont sensibles</p>
+            <h2>Une empreinte n’est pas nécessairement anonyme.</h2>
+            <p>Le document, son image, son pHash, sa structure et son embedding peuvent permettre un rapprochement avec une personne ou un dossier. Ils doivent hériter de contrôles comparables à ceux de la source.</p>
+          </div>
+          <div class="bento-grid">
+            <article class="bento half mint" data-reveal><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><use href="#i-database"></use></svg></span><h3>Pourquoi une référence peut aider</h3><p>Repérer un fichier réutilisé, reconnaître une version attendue d’un émetteur, suivre un changement temporel de template et regrouper des campagnes documentaires.</p></article>
+            <article class="bento half purple" data-reveal><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><use href="#i-user-lock"></use></svg></span><h3>Pourquoi elle peut nuire</h3><p>Réidentification, conservation excessive, biais d’émetteur, faux rapprochements, suppression impossible ou utilisation d’un verdict crédit comme faux label de fraude.</p></article>
+            <article class="bento" data-reveal><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><use href="#i-database"></use></svg></span><h3>Segmenter</h3><p>Séparer originaux, rapports, hashes exacts, fingerprints visuels, embeddings et profils d’émetteur.</p></article>
+            <article class="bento" data-reveal><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><use href="#i-clock"></use></svg></span><h3>Versionner</h3><p>Associer chaque référence à sa provenance, son outil, sa version, sa période de validité et ses limites.</p></article>
+            <article class="bento" data-reveal><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><use href="#i-lock"></use></svg></span><h3>Supprimer</h3><p>Prévoir une suppression vérifiable dans object store, tables, index, caches, datasets, backups et dérivés.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="shell">
+          <div class="section-head" data-reveal>
+            <p class="eyebrow">Cycle de vie proposé</p>
+            <h2>La traçabilité suit la donnée jusqu’à sa suppression.</h2>
+            <p>Les durées précises restent <strong>TBD-DPO</strong>. Le système ne doit pas fabriquer une rétention par défaut au seul motif que le stockage est disponible.</p>
+          </div>
+          <div class="lifecycle">
+            <article class="life-step" data-reveal><b>01 · Collecte</b><h3>Finalité précise</h3><p>Champ justifié, notice vérifiée et source identifiée.</p></article>
+            <article class="life-step" data-reveal><b>02 · Stockage</b><h3>Chiffrement</h3><p>Namespace, droits, région et durée attachés à l’objet.</p></article>
+            <article class="life-step" data-reveal><b>03 · Dérivation</b><h3>Provenance</h3><p>Hash parent, outil, version et date pour chaque artefact.</p></article>
+            <article class="life-step" data-reveal><b>04 · Usage</b><h3>Accès tracé</h3><p>Rôle, justification, dataset manifest et expérimentation approuvée.</p></article>
+            <article class="life-step" data-reveal><b>05 · Fin</b><h3>Suppression vérifiée</h3><p>Source, dérivés et index effacés selon décision DPO/Legal.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section navy-section">
+        <div class="shell" style="position:relative;z-index:1">
+          <div class="section-head" data-reveal>
+            <p class="eyebrow">Qualité des labels</p>
+            <h2>Un mauvais résultat crédit n’est pas un label fraude.</h2>
+            <p>Les notions métier doivent rester séparées pour éviter d’entraîner un modèle sur des corrélations fausses ou discriminatoires.</p>
+          </div>
+          <div class="hybrid-flow four-column" data-reveal>
+            <article class="hybrid-node"><b>Signal technique</b><h3>Forensics</h3><p>Ce que les octets, objets, images ou signatures permettent d’observer.</p></article>
+            <article class="hybrid-node"><b>Verdict documentaire</b><h3>Fraude</h3><p>Qualification confirmée et documentée par une procédure dédiée.</p></article>
+            <article class="hybrid-node"><b>Traitement</b><h3>Opérations</h3><p>Revue, demande d’original, investigation ou clôture du signal.</p></article>
+            <article class="hybrid-node"><b>Système séparé</b><h3>Crédit</h3><p>Solvabilité et décision crédit hors du moteur Document Trust.</p></article>
+          </div>
+          <div class="callout warning" style="margin-top:28px;color:var(--navy)" data-reveal><p>Un refus de crédit, un défaut de paiement, une absence de signature ou un document de faible qualité ne doivent jamais devenir automatiquement un label de fraude documentaire.</p></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="shell">
+          <div class="section-head" data-reveal>
+            <p class="eyebrow">Décisions formelles</p>
+            <h2>Qui doit valider quoi ?</h2>
+          </div>
+          <div class="gate-grid">
+            <article class="gate-card" data-reveal><b>DPO</b><h3>Vie privée</h3><p>Base juridique, compatibilité de finalité, DPIA, information, droits et rétention.</p></article>
+            <article class="gate-card" data-reveal><b>LEG</b><h3>Juridique</h3><p>Usage R&amp;D, sous-traitance, licences, contrats, notices et conservation probatoire.</p></article>
+            <article class="gate-card" data-reveal><b>SEC</b><h3>Sécurité</h3><p>Environnement, IAM, chiffrement, export, audit, sandbox et procédure d’incident.</p></article>
+            <article class="gate-card" data-reveal><b>DATA</b><h3>Data Owner</h3><p>Provenance, qualité, champs minimaux, labels, représentativité et accès nominatif.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-compact mint-section">
+        <div class="shell decision-banner" data-reveal>
+          <div><h2>Le prochain jalon n’est pas “entraîner”.</h2><p>Il faut d’abord durcir la plateforme, décider l’infrastructure et clôturer les gates de données appropriés.</p></div>
+          <a class="button button-primary" href="roadmap.html">Lire la roadmap</a>
+        </div>
+      </section>
+    </main>
+
+    <div data-site-footer></div>
+  </body>
+</html>

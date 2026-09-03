@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; connect-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'">
+    <meta name="description" content="Frontières de confiance, menaces et contrôles de sécurité de Mozzeno Document Trust.">
+    <meta name="theme-color" content="#222b54">
+    <title>Sécurité · Mozzeno Document Trust</title>
+    <link rel="icon" href="assets/brand/banana-navy-logo.png" type="image/png">
+    <link rel="stylesheet" href="assets/styles.css">
+    <script defer src="assets/app.js"></script>
+  </head>
+  <body data-page="securite">
+    <a class="skip-link" href="#contenu">Aller au contenu</a>
+    <div data-site-header></div>
+    <noscript><div class="noscript-note">Les contrôles et menaces restent entièrement lisibles sans animation.</div></noscript>
+
+    <main id="contenu">
+      <section class="subhero">
+        <div class="shell">
+          <nav class="breadcrumb" aria-label="Fil d’Ariane"><a href="index.html">Accueil</a><span>›</span><span>Sécurité</span></nav>
+          <p class="eyebrow" style="margin-top:28px">Toute entrée est hostile</p>
+          <h1>Réduire l’exposition avant de chercher une <span class="accent">anomalie.</span></h1>
+          <p class="lead">Le document est une surface d’attaque. Les contrôles applicatifs M1 réduisent déjà certains risques, mais la sécurité de production exige une isolation forte que le prototype ne prétend pas fournir.</p>
+          <div class="status-pills"><span class="pill pill-delivered">Contrôles M1 présents</span><span class="pill pill-target">Sandbox en cible</span><span class="pill pill-gate">Security-prod fermé</span></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="shell">
+          <div class="section-head" data-reveal>
+            <p class="eyebrow">Frontières de confiance</p>
+            <h2>Le parser ne doit rien pouvoir emporter.</h2>
+            <p>La cible enferme les traitements hostiles dans des workers éphémères, non privilégiés et sans accès sortant. Le noyau du rapport ne reçoit que des résultats structurés.</p>
+          </div>
+          <div class="boundary-map" role="img" data-reveal aria-label="Carte des frontières de sécurité : réseau et identité, intake et sandbox parser, contrat de résultats, puis noyau protégé ; les menaces externes comprennent les exploits PDF, bombes, polyglottes, exfiltration, queue poisoning et résultats falsifiés.">
+            <span class="boundary-label outer">Frontière réseau &amp; identité</span>
+            <span class="boundary-label middle">Intake &amp; sandbox parser</span>
+            <span class="boundary-label inner">Contrat de résultats</span>
+            <div class="boundary-ring one" aria-hidden="true"></div>
+            <div class="boundary-ring two" aria-hidden="true"></div>
+            <div class="boundary-ring three" aria-hidden="true"></div>
+            <div class="boundary-core"><b>Noyau protégé</b><strong>Faits structurés<br>+ policy</strong></div>
+            <span class="threat t1">PDF parser exploit</span>
+            <span class="threat t2">Decompression bomb</span>
+            <span class="threat t3">Fichier polyglotte</span>
+            <span class="threat t4">Exfiltration PII</span>
+            <span class="threat t5">Queue poisoning</span>
+            <span class="threat t6">Résultat falsifié</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section surface-section">
+        <div class="shell">
+          <div class="section-head" data-reveal>
+            <p class="eyebrow">Ce qui existe / ce qui manque</p>
+            <h2>Deux colonnes pour éviter tout claim ambigu.</h2>
+          </div>
+          <div class="comparison-grid">
+            <article class="comparison-card" data-reveal>
+              <span class="pill pill-delivered">Contrôles M1 présents</span>
+              <h3>Protection applicative locale</h3>
+              <ul><li>Type, taille et magic bytes bornés avant stockage ; quota de pages borné pendant l’analyse.</li><li>UUID opaques et erreurs corrélées sans contenu du document.</li><li>Original conservé byte-for-byte et SHA-256.</li><li>Timeout des analyses et abstention INCONCLUSIVE.</li><li>Un job fautif ne tue pas le worker local.</li><li>Aperçu PNG, CSP et cache <code>no-store</code>.</li><li>Aucun appel à un service documentaire ou modèle externe.</li><li>Audits SCA et SBOM Python préliminaire.</li></ul>
+            </article>
+            <article class="comparison-card target" data-reveal>
+              <span class="pill pill-gate">Obligatoire avant production</span>
+              <h3>Isolation et exploitation</h3>
+              <ul><li>OIDC/MFA et autorisation par soumission.</li><li>Antivirus et contrôle polyglotte complet.</li><li>Worker non privilégié, filesystem éphémère et quotas OS.</li><li>Blocage egress effectivement appliqué au niveau réseau.</li><li>Queue durable, retry borné, idempotence et DLQ.</li><li>Object store chiffré avec immutabilité.</li><li>Audit append-only exportable vers WORM.</li><li>Secrets manager, pentest, fuzzing, sauvegarde et restauration.</li></ul>
+            </article>
+          </div>
+          <div class="callout warning" style="margin-top:22px" data-reveal><p><strong>Qualification importante :</strong> l’absence d’appel externe dans le code M1 n’est pas équivalente à un blocage réseau. Le “sans egress” ne sera démontré qu’avec une policy infrastructure et des tests dédiés.</p></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="shell">
+          <div class="section-head" data-reveal>
+            <p class="eyebrow">Threat model priorisé</p>
+            <h2>Défendre le système, les données et le jugement.</h2>
+            <p>La sécurité ne s’arrête pas au fichier malveillant. Elle couvre aussi la contamination des références, les droits internes et la présentation trompeuse des résultats.</p>
+          </div>
+          <div class="security-grid">
+            <article class="security-card" data-reveal><b>01</b><h3>Entrée hostile</h3><p>Exploit parser, bombes, polyglottes, JavaScript PDF, objets incorporés et fichiers malformés.</p></article>
+            <article class="security-card" data-reveal><b>02</b><h3>Exfiltration</h3><p>PII dans logs, traces, erreurs, previews, fichiers temporaires ou appels réseau sortants.</p></article>
+            <article class="security-card" data-reveal><b>03</b><h3>Accès interne</h3><p>Consultation abusive, liens directs, élévation de rôle, export non autorisé ou suppression incomplète.</p></article>
+            <article class="security-card" data-reveal><b>04</b><h3>Orchestration</h3><p>Replay, saturation, job empoisonné, retry infini, confusion d’identifiant et falsification du statut.</p></article>
+            <article class="security-card" data-reveal><b>05</b><h3>Dataset</h3><p>Labels bruités, empoisonnement, provenance inconnue, fuite entre splits et rétention illégitime.</p></article>
+            <article class="security-card" data-reveal><b>06</b><h3>Modèle futur</h3><p>Adversarial examples, extraction, inversion, dérive, poids compromis ou téléchargement runtime.</p></article>
+            <article class="security-card" data-reveal><b>07</b><h3>Policy</h3><p>Seuil modifié sans version, indicateurs corrélés traités comme indépendants ou refus automatique caché.</p></article>
+            <article class="security-card" data-reveal><b>08</b><h3>Interface</h3><p>Couleur interprétée comme authenticité, limites masquées ou confusion entre fraude et décision crédit.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section navy-section">
+        <div class="shell" style="position:relative;z-index:1">
+          <div class="section-head" data-reveal>
+            <p class="eyebrow">Stratégie de défense en profondeur</p>
+            <h2>Quatre barrières, aucune confiance implicite.</h2>
+          </div>
+          <div class="hybrid-flow four-column" data-reveal>
+            <article class="hybrid-node"><b>Barrière 1</b><h3>Refuser tôt</h3><p>Quota, format, taille et complexité avant que le parser coûteux soit invoqué.</p></article>
+            <article class="hybrid-node"><b>Barrière 2</b><h3>Isoler fort</h3><p>Sandbox jetable, sans privilège, sans secret, sans réseau sortant et avec budgets stricts.</p></article>
+            <article class="hybrid-node"><b>Barrière 3</b><h3>Réduire la sortie</h3><p>Faits structurés, miniature rasterisée, logs sans contenu et artefacts chiffrés.</p></article>
+            <article class="hybrid-node"><b>Barrière 4</b><h3>Contrôler l’action</h3><p>Policy versionnée, revue humaine, audit append-only, monitoring et rollback.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="shell">
+          <div class="section-head" data-reveal>
+            <p class="eyebrow">Gates de sécurité</p>
+            <h2>Ce qui doit être signé avant un document réel.</h2>
+          </div>
+          <div class="gate-grid">
+            <article class="gate-card" data-reveal><b>IAM</b><h3>Identité</h3><p>OIDC, MFA, rôles, autorisation par objet, comptes de service et rotation des secrets.</p></article>
+            <article class="gate-card" data-reveal><b>SBX</b><h3>Sandbox</h3><p>Profil seccomp, limites CPU/RAM/disque, filesystem éphémère, non-root et no-egress testés.</p></article>
+            <article class="gate-card" data-reveal><b>OPS</b><h3>Exploitation</h3><p>SLO, capacité, alertes, DLQ, RPO/RTO, backups, restauration et gestion d’incident.</p></article>
+            <article class="gate-card" data-reveal><b>VAL</b><h3>Validation</h3><p>SAST, SCA, SBOM complet, scan images, fuzzing PDF, load tests et test d’intrusion.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-compact mint-section">
+        <div class="shell decision-banner" data-reveal>
+          <div><h2>La donnée est la prochaine frontière.</h2><p>Même pseudonymisés, documents, pHash, embeddings et fingerprints peuvent rester personnels.</p></div>
+          <a class="button button-primary" href="gouvernance.html">Voir les gates de données</a>
+        </div>
+      </section>
+    </main>
+
+    <div data-site-footer></div>
+  </body>
+</html>

@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; connect-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'">
+    <meta name="description" content="Roadmap, limites, gates et décisions attendues pour industrialiser Mozzeno Document Trust.">
+    <meta name="theme-color" content="#222b54">
+    <title>Roadmap · Mozzeno Document Trust</title>
+    <link rel="icon" href="assets/brand/banana-navy-logo.png" type="image/png">
+    <link rel="stylesheet" href="assets/styles.css">
+    <script defer src="assets/app.js"></script>
+  </head>
+  <body data-page="roadmap">
+    <a class="skip-link" href="#contenu">Aller au contenu</a>
+    <div data-site-header></div>
+    <noscript><div class="noscript-note">La roadmap et ses gates restent lisibles sans JavaScript.</div></noscript>
+
+    <main id="contenu">
+      <section class="subhero">
+        <div class="shell">
+          <nav class="breadcrumb" aria-label="Fil d’Ariane"><a href="index.html">Accueil</a><span>›</span><span>Roadmap</span></nav>
+          <p class="eyebrow" style="margin-top:28px">Du M1 à une capacité exploitable</p>
+          <h1>Valider chaque risque avant d’augmenter la <span class="accent">portée.</span></h1>
+          <p class="lead">Le moteur local prouve le parcours et les contrats. La prochaine valeur vient du durcissement, puis des détecteurs avancés synthétiques, avant toute expérimentation privée.</p>
+          <div class="status-pills"><span class="pill pill-delivered">M0 terminé</span><span class="pill pill-delivered">M1 validé localement</span><span class="pill pill-gate">M4/M5 bloqués</span></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="shell">
+          <div class="section-head" data-reveal>
+            <p class="eyebrow">Jalons et gates</p>
+            <h2>Une progression qui ne saute aucune autorisation.</h2>
+          </div>
+          <div class="timeline">
+            <article class="milestone done" data-reveal><b>M0</b><div><h3>Gouvernance et contrats</h3><p>Architecture, décisions, threat model, data readiness, clean room, licences et schémas de résultat.</p></div><span class="pill pill-delivered">Terminé</span></article>
+            <article class="milestone done" data-reveal><b>M1</b><div><h3>Vertical slice synthétique</h3><p>Upload, octets originaux, SHA-256, analyse locale, policy, interface, feedback, fixtures et tests.</p></div><span class="pill pill-delivered">Validé localement</span></article>
+            <article class="milestone" data-reveal><b>M2</b><div><h3>Durcissement de l’intake et des workers</h3><p>OIDC, object store, queue durable, sandbox sans egress, antivirus, DLQ, audit WORM et restauration.</p></div><span class="pill pill-target">Prochaine phase</span></article>
+            <article class="milestone" data-reveal><b>M3</b><div><h3>Détecteurs avancés synthétiques</h3><p>Polices locales, montants, collage, CV, fingerprints de layout, near-duplicates et benchmark gelé.</p></div><span class="pill pill-target">Après M2</span></article>
+            <article class="milestone" data-reveal><b>M4</b><div><h3>Readiness privée</h3><p>Profiling agrégé in situ, provenance, labels, DPIA, manifest et validations écrites.</p></div><span class="pill pill-gate">Bloqué</span></article>
+            <article class="milestone" data-reveal><b>M5</b><div><h3>Expérimentation privée contrôlée</h3><p>Similarité, anomalies émetteur, localisation et shadow evaluation avec revue analyste.</p></div><span class="pill pill-gate">Interdit à ce stade</span></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section surface-section">
+        <div class="shell">
+          <div class="section-head" data-reveal>
+            <p class="eyebrow">Priorités M2</p>
+            <h2>Industrialiser les frontières avant les modèles.</h2>
+            <p>Ajouter un modèle sophistiqué dans un pipeline non isolé augmente le risque plus vite que la valeur.</p>
+          </div>
+          <div class="bento-grid">
+            <article class="bento wide navy" data-reveal><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><use href="#i-lock"></use></svg></span><h3>1. Sortir les parsers du processus API</h3><p>Workers jetables, non privilégiés, sans secret ni egress, avec budgets CPU/RAM/disque et profils de sécurité testés.</p></article>
+            <article class="bento" data-reveal><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><use href="#i-user-lock"></use></svg></span><h3>2. Authentifier réellement</h3><p>OIDC, MFA, rôles, autorisation par soumission et comptes de service à privilège minimal.</p></article>
+            <article class="bento" data-reveal><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><use href="#i-database"></use></svg></span><h3>3. Rendre l’original immuable</h3><p>Object store chiffré, versioning, Object Lock et vérification d’intégrité à la lecture.</p></article>
+            <article class="bento wide mint" data-reveal><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><use href="#i-handoff"></use></svg></span><h3>4. Rendre l’orchestration durable</h3><p>Outbox transactionnel, jobs idempotents, timeouts, retries bornés, DLQ, version des détecteurs et capacité de re-run.</p></article>
+            <article class="bento half purple" data-reveal><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><use href="#i-clock"></use></svg></span><h3>5. Prouver l’exploitation</h3><p>Charge concurrente, latence end-to-end, RPO/RTO, alertes sans PII, backups, restauration et incident response.</p></article>
+            <article class="bento half" data-reveal><span class="card-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><use href="#i-shield"></use></svg></span><h3>6. Fermer les décisions ouvertes</h3><p>Région, rétention, suppression, audit, vendor risk et responsabilités avant le moindre accès réel.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="shell">
+          <div class="section-head" data-reveal>
+            <p class="eyebrow">Décisions attendues de Mozzeno</p>
+            <h2>Un atelier technique, sécurité et DPO.</h2>
+            <p>L’objectif n’est pas d’ouvrir la base. Il est de fixer les contraintes qui permettront de construire M2 correctement.</p>
+          </div>
+          <div class="gate-grid">
+            <article class="gate-card" data-reveal><b>PLT</b><h3>Plateforme</h3><p>Cloud/région, Kubernetes ou alternative, PostgreSQL, object store, queue/workflow, observabilité et CI/CD.</p></article>
+            <article class="gate-card" data-reveal><b>SEC</b><h3>Sécurité</h3><p>IAM, secrets, sandbox, antivirus, egress, clés, WORM, scans, pentest et procédure d’incident.</p></article>
+            <article class="gate-card" data-reveal><b>DPO</b><h3>Données</h3><p>Finalités, base juridique, DPIA, rétention, droits, suppression, profils et fingerprints personnels.</p></article>
+            <article class="gate-card" data-reveal><b>OPS</b><h3>Opérations fraude</h3><p>Taxonomie, capacité quotidienne, seuils de revue, feedback, recours et distinction fraude/crédit.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section navy-section">
+        <div class="shell" style="position:relative;z-index:1">
+          <div class="section-head" data-reveal>
+            <p class="eyebrow">Définition de succès M2</p>
+            <h2>Une plateforme prête pour un shadow mode, pas pour un refus automatique.</h2>
+            <p>M2 est terminé lorsque le chemin d’entrée hostile est isolé, restaurable, observable, authentifié et testé sous charge, avec des rapports reproductibles et des limites visibles.</p>
+          </div>
+          <div class="comparison-grid">
+            <article class="comparison-card" style="color:var(--navy)" data-reveal><span class="pill pill-delivered">Doit être démontré</span><h3>Technique</h3><ul><li>Build et migrations PostgreSQL reproductibles.</li><li>Original immuable et suppression testée.</li><li>Worker sandboxé sans egress.</li><li>Retry, DLQ et re-run idempotents.</li><li>Benchmark concurrent et restauration.</li></ul></article>
+            <article class="comparison-card target" style="color:var(--navy)" data-reveal><span class="pill pill-warning">Reste interdit</span><h3>Données &amp; décision</h3><ul><li>Aucun entraînement privé sans gate TRAINING.</li><li>Aucun document vers une API externe.</li><li>Aucun verdict génératif non sourcé.</li><li>Aucun pourcentage d’authenticité non calibré.</li><li>Aucun refus automatique de crédit.</li></ul></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="shell narrow">
+          <div class="section-head" data-reveal>
+            <p class="eyebrow">Questions fréquentes</p>
+            <h2>Les réponses importantes, sans raccourci.</h2>
+          </div>
+          <div class="faq-list" data-reveal>
+            <details><summary>Le M1 détecte-t-il déjà un montant remplacé ?</summary><p>Non. Une fixture synthétique et son masque existent pour préparer ce workstream, mais le détecteur de manipulation locale relève de M3. Le site l’étiquette explicitement comme cible.</p></details>
+            <details><summary>Une signature valide rend-elle le document authentique ?</summary><p>Non. Elle peut prouver l’intégrité des octets couverts et l’identité cryptographique sous certaines conditions. La confiance de la chaîne, la révocation, l’eIDAS et la vérité métier restent distinctes.</p></details>
+            <details><summary>Pourquoi ne pas entraîner immédiatement sur l’historique Mozzeno ?</summary><p>Parce que la disponibilité technique ne constitue pas une base juridique ni une compatibilité de finalité. Provenance, labels, DPIA, rétention, suppression et validations écrites doivent précéder l’accès.</p></details>
+            <details><summary>Faut-il une base vectorielle ?</summary><p>Pas pour le M1. SHA-256 suffit au doublon exact. Un index vectoriel devient utile pour le near-duplicate et les templates seulement après gouvernance, calibration et définition de la suppression.</p></details>
+            <details><summary>Un système multi-agents améliorerait-il le moteur ?</summary><p>Pas pour produire les preuves de base : des détecteurs déterministes sont plus reproductibles. Une architecture hybride peut ensuite faire résumer et critiquer le rapport localement, sans autoriser les agents à inventer un signal ou modifier le verdict.</p></details>
+            <details><summary>Quand pourra-t-on utiliser de vrais documents ?</summary><p>Après clôture écrite des gates DATA-ACCESS et SECURITY-PROD correspondant à l’usage précis. Une autorisation limitée au profiling ne vaut pas autorisation d’entraînement ou de production.</p></details>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-compact mint-section">
+        <div class="shell decision-banner" data-reveal>
+          <div><h2>Prochaine décision : atelier Platform / Security / DPO.</h2><p>Sortie attendue : ADR d’infrastructure, responsabilités, critères de test M2 et gates — sans ouvrir l’accès aux données réelles.</p></div>
+          <a class="button button-primary" href="index.html">Revenir à la synthèse</a>
+        </div>
+      </section>
+    </main>
+
+    <div data-site-footer></div>
+  </body>
+</html>

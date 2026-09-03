@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; connect-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'">
+    <meta name="description" content="Détecteurs déterministes, contrat d’indicateur et policy de Mozzeno Document Trust.">
+    <meta name="theme-color" content="#222b54">
+    <title>Détecteurs · Mozzeno Document Trust</title>
+    <link rel="icon" href="assets/brand/banana-navy-logo.png" type="image/png">
+    <link rel="stylesheet" href="assets/styles.css">
+    <script defer src="assets/app.js"></script>
+  </head>
+  <body data-page="detecteurs">
+    <a class="skip-link" href="#contenu">Aller au contenu</a>
+    <div data-site-header></div>
+    <noscript><div class="noscript-note">Tous les détecteurs restent visibles. Les filtres nécessitent JavaScript.</div></noscript>
+
+    <main id="contenu">
+      <section class="subhero">
+        <div class="shell">
+          <nav class="breadcrumb" aria-label="Fil d’Ariane"><a href="index.html">Accueil</a><span>›</span><span>Détecteurs</span></nav>
+          <p class="eyebrow" style="margin-top:28px">Faits avant verdicts</p>
+          <h1>Des contrôles spécialisés, jamais une boîte <span class="accent">noire.</span></h1>
+          <p class="lead">Chaque module observe une dimension technique, retourne des faits structurés et peut s’abstenir. Aucun détecteur ne prend directement une action métier.</p>
+          <div class="status-pills"><span class="pill pill-delivered">6 familles M1</span><span class="pill pill-target">CV &amp; ML en cible</span><span class="pill pill-gate">TRUSTED non produit en M1</span></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="shell">
+          <div class="section-head" data-reveal>
+            <p class="eyebrow">Modules livrés</p>
+            <h2>Filtrer par nature de contrôle.</h2>
+            <p>Les modules restent indépendants pour être testés, versionnés et remplacés sans casser le contrat du rapport.</p>
+          </div>
+          <div class="detector-toolbar" role="group" aria-label="Filtrer les détecteurs" data-reveal>
+            <button class="filter-button" type="button" aria-pressed="true" data-detector-filter="all">Tous</button>
+            <button class="filter-button" type="button" aria-pressed="false" data-detector-filter="intake">Entrée</button>
+            <button class="filter-button" type="button" aria-pressed="false" data-detector-filter="pdf">PDF</button>
+            <button class="filter-button" type="button" aria-pressed="false" data-detector-filter="visual">Visuel</button>
+            <button class="filter-button" type="button" aria-pressed="false" data-detector-filter="serial">Sériel</button>
+          </div>
+          <div class="detector-grid">
+            <article class="detector-card" data-detector-category="intake" data-reveal>
+              <div class="detector-code"><b>FMT</b><span class="pill pill-delivered">Livré M1</span></div>
+              <h3>Format et bornes</h3>
+              <p>Décide si l’entrée peut être analysée sans extrapoler son contenu.</p>
+              <ul><li>Type application/pdf et en-tête attendu</li><li>15 MiB maximum configuré</li><li>Préfixes binaires suspects rejetés</li><li>INVALID_INPUT en cas de contenu hors contrat</li></ul>
+            </article>
+            <article class="detector-card" data-detector-category="pdf" data-reveal>
+              <div class="detector-code"><b>XREF</b><span class="pill pill-delivered">Livré M1</span></div>
+              <h3>Structure PDF</h3>
+              <p>Extrait la provenance technique et les inventaires nécessaires aux autres analyses.</p>
+              <ul><li>Métadonnées, producteur et créateur</li><li>Révisions incrémentales</li><li>Inventaires polices et images</li><li>Profils de pages et limites d’inventaire</li></ul>
+            </article>
+            <article class="detector-card" data-detector-category="pdf" data-reveal>
+              <div class="detector-code"><b>CLS</b><span class="pill pill-delivered">Livré M1</span></div>
+              <h3>Classification d’origine</h3>
+              <p>Route le document selon la présence de texte natif et d’images de page.</p>
+              <ul><li>NATIVE_PDF</li><li>SCANNED_PDF</li><li>IMAGE_ONLY_PDF</li><li>Heuristique explicite, non modèle ML</li></ul>
+            </article>
+            <article class="detector-card" data-detector-category="pdf" data-reveal>
+              <div class="detector-code"><b>SIG</b><span class="pill pill-delivered">Livré M1</span></div>
+              <h3>Signature numérique</h3>
+              <p>Vérifie localement l’intégrité cryptographique et la couverture des octets.</p>
+              <ul><li>Présence ou absence factuelle</li><li>Intégrité CMS hors ligne</li><li>Révision post-signature</li><li>Pas de révocation, Trusted Lists ou eIDAS</li></ul>
+            </article>
+            <article class="detector-card" data-detector-category="visual" data-reveal>
+              <div class="detector-code"><b>IMG</b><span class="pill pill-delivered">Livré M1</span></div>
+              <h3>Rendu et qualité</h3>
+              <p>Produit un dérivé raster sûr et un signal borné de faible résolution embarquée.</p>
+              <ul><li>Thumbnail PNG première page</li><li>pHash 64 bits</li><li>Pixels embarqués sous seuil explicite</li><li>Ni DPI, ni netteté, ni preuve de fraude</li></ul>
+            </article>
+            <article class="detector-card" data-detector-category="serial" data-reveal>
+              <div class="detector-code"><b>SHA</b><span class="pill pill-delivered">Livré M1</span></div>
+              <h3>Doublon exact</h3>
+              <p>Relie deux fichiers strictement identiques sans inférer pourquoi ils ont été réutilisés.</p>
+              <ul><li>Index SHA-256</li><li>Correspondance binaire déterministe</li><li>Signal SERIAL_FRAUD fort</li><li>Contexte analyste toujours requis</li></ul>
+            </article>
+            <article class="detector-card" data-detector-category="visual" data-reveal>
+              <div class="detector-code"><b>CV</b><span class="pill pill-target">Cible M3</span></div>
+              <h3>Manipulation localisée</h3>
+              <p>Workstream futur pour montants, dates, polices, collage, bruit et segmentation.</p>
+              <ul><li>Ground truth synthétique et masques</li><li>IoU/Dice par type documentaire</li><li>Bounding boxes ou segmentation</li><li>Jamais un signal unique de blocage</li></ul>
+            </article>
+            <article class="detector-card" data-detector-category="serial" data-reveal>
+              <div class="detector-code"><b>SIM</b><span class="pill pill-gate">Après DATA-ACCESS</span></div>
+              <h3>Similarité et émetteurs</h3>
+              <p>Templates, mises en page et anomalies temporelles exigent un corpus autorisé et gouverné.</p>
+              <ul><li>pHash, layout et embeddings séparés</li><li>Suppression et accès contrôlés</li><li>Split par dossier, template et période</li><li>Pas de base vectorielle prématurée</li></ul>
+            </article>
+            <article class="detector-card" data-detector-category="visual" data-reveal>
+              <div class="detector-code"><b>AI</b><span class="pill pill-target">Expérimental</span></div>
+              <h3>Détection GenAI</h3>
+              <p>Signal futur à tester contre recompression, screenshot, impression-scan et générateurs inconnus.</p>
+              <ul><li>Robustesse mesurée par transformation</li><li>Abstention en cas d’incertitude</li><li>Aucune action lorsqu’il est seul</li><li>Poids approuvés et hébergés en interne</li></ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section surface-section">
+        <div class="shell">
+          <div class="section-head" data-reveal>
+            <p class="eyebrow">Contrat d’explication</p>
+            <h2>Une anomalie localisée reste un signal, pas une condamnation.</h2>
+            <p>L’exemple ci-dessous montre le niveau de précision prévu. La zone est illustrative&nbsp;: la détection fine de police n’est pas encore implémentée dans le M1.</p>
+          </div>
+          <div class="indicator-example">
+            <div class="document-mock" role="img" data-reveal aria-label="Document synthétique avec une zone illustrative localisée en page 1.">
+              <div class="paper">
+                <div class="paper-head"><span class="paper-logo"></span><span class="paper-stamp"></span></div>
+                <div class="paper-line dark"></div><div class="paper-line medium"></div><div class="paper-line short"></div>
+                <div class="paper-table">
+                  <div class="paper-row"><span class="paper-line"></span><span class="paper-line dark"></span></div>
+                  <div class="paper-row"><span class="paper-line"></span><span class="paper-line dark"></span></div>
+                  <div class="paper-row"><span class="paper-line"></span><span class="paper-line dark"></span></div>
+                </div>
+                <div class="bounding-box" aria-hidden="true"></div>
+              </div>
+            </div>
+            <article class="indicator-card" data-reveal>
+              <div class="indicator-meta"><span class="pill">TYPOGRAPHY</span><span class="pill pill-warning">MEDIUM</span><span class="pill pill-target">MODERATE</span></div>
+              <h3>Incohérence locale de police</h3>
+              <p>Une zone utilise une police différente de champs structurellement comparables. Ce signal nécessite une validation du contexte et de la mise en page attendue.</p>
+              <div class="callout warning"><p><strong>Limite.</strong> Une police différente peut provenir d’une génération légitime, d’une version de template ou d’un fallback de glyphe.</p></div>
+              <div class="indicator-fields">
+                <div><b>Identifiant</b><span>pdf.font.local_inconsistency.v1</span></div>
+                <div><b>Détecteur</b><span>typography · 1.0.0</span></div>
+                <div><b>Localisation</b><span>page 1 · bbox normalisée</span></div>
+                <div><b>État</b><span>Cible M3, non livré M1</span></div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="shell">
+          <div class="section-head" data-reveal>
+            <p class="eyebrow">Ordre réel de la policy</p>
+            <h2>Les cas les plus sûrs sont évalués d’abord.</h2>
+            <p>La règle HIGH_RISK n’est atteinte qu’avec au moins deux catégories indépendantes, de sévérité haute ou critique et de force forte.</p>
+          </div>
+          <div class="policy-tree" data-reveal>
+            <div class="policy-rule danger"><b>01</b><span>Entrée invalide ou hors bornes</span><output>INVALID_INPUT</output></div>
+            <div class="policy-rule danger"><b>02</b><span>Deux catégories indépendantes avec preuves fortes HIGH/CRITICAL</span><output>HIGH_RISK · REVUE</output></div>
+            <div class="policy-rule warning"><b>03</b><span>Échec d’intégrité cryptographique de signature</span><output>WARNING · REVUE</output></div>
+            <div class="policy-rule inconclusive"><b>04</b><span>Image seule ou PDF image-only</span><output>INCONCLUSIVE · ORIGINAL</output></div>
+            <div class="policy-rule warning"><b>05</b><span>Doublon SHA-256 exact</span><output>WARNING · CONTEXTE</output></div>
+            <div class="policy-rule inconclusive"><b>06</b><span>Détecteur central indisponible</span><output>INCONCLUSIVE · REVUE</output></div>
+            <div class="policy-rule warning"><b>07</b><span>Autre indicateur matériel</span><output>WARNING · REVUE</output></div>
+            <div class="policy-rule"><b>08</b><span>Aucun indicateur matériel observé</span><output>NORMAL · NO ACTION</output></div>
+          </div>
+          <div class="callout purple" style="margin-top:22px" data-reveal><p><strong>NORMAL signifie uniquement :</strong> aucune anomalie suffisamment significative n’a été détectée par les contrôles exécutés. Le verdict TRUSTED existe dans le contrat, mais le M1 ne le produit pas faute de signal positif fort avec confiance établie.</p></div>
+        </div>
+      </section>
+
+      <section class="section-compact mint-section">
+        <div class="shell decision-banner" data-reveal>
+          <div><h2>Voir le moteur réagir à cinq cas.</h2><p>La démonstration simule les résultats avec des scénarios synthétiques et ne permet aucun upload de document réel.</p></div>
+          <a class="button button-primary" href="demo.html">Lancer la démonstration</a>
+        </div>
+      </section>
+    </main>
+
+    <div data-site-footer></div>
+  </body>
+</html>

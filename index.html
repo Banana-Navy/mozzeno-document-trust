@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; connect-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'">
+    <meta name="description" content="Présentation du moteur local et explicable d’assistance à la détection de fraude documentaire, conçu pour une trajectoire souveraine chez Mozzeno.">
+    <meta name="theme-color" content="#222b54">
+    <title>Mozzeno Document Trust · Vue d’ensemble</title>
+    <link rel="icon" href="assets/brand/banana-navy-logo.png" type="image/png">
+    <link rel="stylesheet" href="assets/styles.css">
+    <script defer src="assets/app.js"></script>
+  </head>
+  <body data-page="home">
+    <a class="skip-link" href="#contenu">Aller au contenu</a>
+    <div data-site-header></div>
+    <noscript><div class="noscript-note">Le contenu principal reste lisible. La navigation, les pictogrammes et les interactions nécessitent JavaScript.</div></noscript>
+
+    <main id="contenu">
+      <section class="hero">
+        <div class="shell hero-shell hero-grid">
+          <div class="hero-copy" data-reveal>
+            <p class="eyebrow">Mozzeno Document Trust · M1</p>
+            <h1>La fraude documentaire ne se résume pas à un <span class="accent">score.</span></h1>
+            <p>La plateforme transforme un PDF en faits techniques, signaux explicables et limites visibles. Elle ne conclut seule ni à l’authenticité ni à la fraude&nbsp;; l’analyste garde la maîtrise de la suite documentaire.</p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="fonctionnement.html">Explorer le pipeline</a>
+              <a class="button button-ghost" href="demo.html">Lancer la démo synthétique</a>
+            </div>
+            <div class="trust-line" role="list" aria-label="Principes du système">
+              <span role="listitem">Aucun service documentaire externe</span>
+              <span role="listitem">Aucune décision de crédit</span>
+              <span role="listitem">Alertes et incertitudes revues humainement</span>
+            </div>
+          </div>
+
+          <figure class="trust-console" aria-labelledby="console-caption" data-reveal>
+            <figcaption class="visually-hidden" id="console-caption">Illustration d’un scénario entièrement synthétique : analyse locale d’un relevé fictif, calcul de l’empreinte SHA-256, détection d’un signal à examiner, policy versionnée, puis revue humaine sans décision de crédit.</figcaption>
+            <div class="console-toolbar">
+              <div class="local-processing">
+                <span class="console-icon"><svg aria-hidden="true"><use href="#i-database"></use></svg></span>
+                <span><strong>Analyse locale M1</strong><small>Aucun fichier transmis à un service tiers</small></span>
+              </div>
+              <div class="analysis-modes" role="list" aria-label="Axes d’analyse illustrés"><span role="listitem">Structure</span><span class="is-active" role="listitem">Signature</span><span role="listitem">Qualité</span></div>
+              <span class="synthetic-chip">Illustration · scénario synthétique</span>
+            </div>
+
+            <div class="console-workspace">
+              <div class="document-viewer">
+                <header class="viewer-head">
+                  <span class="viewer-title"><svg aria-hidden="true"><use href="#i-document"></use></svg><strong>Relevé bancaire synthétique</strong></span>
+                  <span class="viewer-page">Page 1 / 2</span>
+                </header>
+                <div class="synthetic-paper" aria-hidden="true">
+                  <span class="paper-watermark">SYNTHÉTIQUE</span>
+                  <div class="statement-heading"><strong>BANQUE<br>SYNTH</strong><span><b>RELEVÉ DE COMPTE</b><small>Période fictive · 04/2024</small></span></div>
+                  <div class="statement-meta">
+                    <span><small>Profil</small><b>CLIENT SYNTHÉTIQUE 001</b></span>
+                    <span><small>Référence</small><b>SYNTH-M1-0042</b></span>
+                    <span><small>Compte</small><b>IBAN TEST · NON ATTRIBUÉ</b></span>
+                    <span><small>Devise</small><b>EUR · VALEURS FICTIVES</b></span>
+                  </div>
+                  <div class="statement-table">
+                    <div class="statement-row statement-labels"><span>Date</span><span>Opération</span><span>Débit</span><span>Crédit</span><span>Solde</span></div>
+                    <div class="statement-row"><span>01/04</span><span>Solde précédent</span><span>—</span><span>—</span><span>2 450,00</span></div>
+                    <div class="statement-row"><span>03/04</span><span>Virement test</span><span>—</span><span>1 200,00</span><span>3 650,00</span></div>
+                    <div class="statement-row"><span>05/04</span><span>Paiement test</span><span>320,00</span><span>—</span><span>3 330,00</span></div>
+                    <div class="statement-row"><span>08/04</span><span>Prélèvement test</span><span>120,00</span><span>—</span><span>3 210,00</span></div>
+                  </div>
+                  <p class="paper-disclaimer">Document généré pour démonstration · aucune valeur légale.</p>
+                  <span class="scan-beam" aria-hidden="true"><i></i></span>
+                </div>
+              </div>
+
+              <aside class="signal-board">
+                <section class="signal-panel">
+                  <h2>Contrôles exécutés</h2>
+                  <div class="signal-row">
+                    <span class="signal-icon"><svg aria-hidden="true"><use href="#i-document"></use></svg></span>
+                    <span><strong>Structure du PDF</strong><small>Objets, pages, polices, métadonnées</small></span>
+                    <b class="signal-status done">Analyse terminée</b>
+                  </div>
+                  <div class="signal-row">
+                    <span class="signal-icon hash-icon" aria-hidden="true">#</span>
+                    <span><strong>Empreinte SHA-256</strong><small>Intégrité et doublon binaire exact</small></span>
+                    <b class="signal-status done">Calculée</b>
+                  </div>
+                  <div class="signal-row">
+                    <span class="signal-icon"><svg aria-hidden="true"><use href="#i-clock"></use></svg></span>
+                    <span><strong>Révision post-signature</strong><small>Des octets existent après la révision couverte par la signature&nbsp;; leur cause et leur autorisation ne sont pas déterminées.</small></span>
+                    <b class="signal-status review">WARNING · revue requise</b>
+                  </div>
+                </section>
+                <div class="analyst-panel">
+                  <span class="analyst-icon"><svg aria-hidden="true"><use href="#i-user"></use></svg></span>
+                  <span><strong>Revue analyste</strong><small>Qualifie les signaux et décide de la suite documentaire.</small></span>
+                  <b>Revue humaine</b>
+                  <p>Aucune décision de crédit</p>
+                </div>
+              </aside>
+            </div>
+
+            <div class="console-pipeline-wrap">
+              <ol class="console-pipeline">
+                <li><span class="pipeline-icon"><svg aria-hidden="true"><use href="#i-document"></use></svg></span><b>01</b><small>PDF synthétique</small></li>
+                <li><span class="pipeline-icon hash-icon">#</span><b>02</b><small>Empreinte calculée</small></li>
+                <li><span class="pipeline-icon"><svg aria-hidden="true"><use href="#i-clipboard"></use></svg></span><b>03</b><small>Détecteurs exécutés</small></li>
+                <li><span class="pipeline-icon"><svg aria-hidden="true"><use href="#i-clipboard"></use></svg></span><b>04</b><small>Policy versionnée</small></li>
+                <li><span class="pipeline-icon"><svg aria-hidden="true"><use href="#i-user"></use></svg></span><b>05</b><small>Revue humaine</small></li>
+              </ol>
+              <span class="pipeline-runner" aria-hidden="true"></span>
+            </div>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section surface-section separation-section" id="separation-moteur-humain">
+        <div class="shell">
+          <div class="section-head separation-heading" data-reveal>
+            <p class="eyebrow">Une séparation fondamentale</p>
+            <h2>Observer, interpréter, puis décider humainement.</h2>
+            <p>Le moteur ne confond jamais un fait technique avec une fraude confirmée. Cette séparation réduit les conclusions artificielles et rend chaque alerte contestable.</p>
+          </div>
+          <div class="decision-map" data-reveal>
+            <div class="engine-zone">
+              <p class="zone-title"><span>Le moteur observe et interprète</span></p>
+              <div class="engine-card-grid">
+                <article class="separation-card fact-card">
+                  <p class="separation-kicker"><b class="number-asset number-01"><span class="visually-hidden">01</span></b><span>Fait</span></p>
+                  <h3>Ce qui est observé</h3>
+                  <p>Des octets existent après la révision couverte par une signature. C’est mesurable et reproductible.</p>
+                  <div class="fact-visual visual-kit-slice" aria-hidden="true"></div>
+                  <div class="fact-qualifier visual-kit-slice" aria-hidden="true"></div>
+                </article>
+
+                <article class="separation-card signal-card">
+                  <p class="separation-kicker"><b class="number-asset number-02"><span class="visually-hidden">02</span></b><span>Signal</span></p>
+                  <h3>Ce qui mérite attention</h3>
+                  <p>Une révision post-signature peut être inhabituelle, mais aussi légitime. Le signal expose sa force et ses limites.</p>
+                  <div class="signal-visual" aria-hidden="true">
+                    <span class="signal-signature visual-kit-slice"></span>
+                    <span class="signal-inspection visual-kit-slice"></span>
+                  </div>
+                  <div class="signal-qualifiers" role="list" aria-label="Qualification du signal">
+                    <span class="visually-hidden" role="listitem">Inhabituel</span><span class="visually-hidden" role="listitem">Pas une preuve</span>
+                  </div>
+                </article>
+              </div>
+            </div>
+
+            <aside class="decision-boundary" aria-label="Frontière entre le moteur d’analyse et la décision humaine">
+              <span>Frontière de décision</span>
+              <strong>Le moteur<br>ne décide pas</strong>
+            </aside>
+
+            <div class="human-zone">
+              <p class="zone-title"><span>L’analyste qualifie et choisit la suite documentaire</span></p>
+              <article class="separation-card treatment-card">
+                <p class="separation-kicker"><b class="number-asset number-03"><span class="visually-hidden">03</span></b><span>Traitement</span></p>
+                <h3>Ce que fait l’équipe</h3>
+                <p>La policy demande une revue. L’analyste confronte le signal au dossier&nbsp;; le moteur ne refuse aucun crédit.</p>
+                <div class="human-review-visual visual-kit-slice" aria-hidden="true"></div>
+                <p class="visually-hidden">L’analyste consulte le dossier et effectue la revue humaine requise.</p>
+                <div class="review-options" role="list" aria-label="Suites documentaires possibles">
+                  <span class="visually-hidden" role="listitem">À approfondir</span>
+                  <span class="visually-hidden" role="listitem">Classer</span>
+                </div>
+                <p class="human-rule"><span>Une alerte oriente la revue.<br>Elle ne remplace jamais le choix humain de la suite documentaire.</span></p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="shell">
+          <div class="section-head" data-reveal>
+            <p class="eyebrow">Ce que le M1 fait réellement</p>
+            <h2>Une première couche forensique locale et explicable.</h2>
+            <p>Le vertical slice couvre le parcours complet, de l’entrée contrôlée au feedback analyste, avec des détecteurs déterministes avant tout travail ML avancé.</p>
+          </div>
+          <div class="bento-grid">
+            <article class="bento wide mint" data-reveal>
+              <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><use href="#i-document"></use></svg></span>
+              <h3>Préserver la preuve technique</h3>
+              <p>Le fichier original est conservé byte-for-byte avant transformation. Son SHA-256 permet de vérifier l’intégrité et de repérer un doublon binaire exact.</p>
+            </article>
+            <article class="bento" data-reveal>
+              <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><use href="#i-document"></use></svg></span>
+              <h3>Lire la structure</h3>
+              <p>Métadonnées, producteurs, révisions, polices, images et classification natif/scan/image.</p>
+            </article>
+            <article class="bento" data-reveal>
+              <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><use href="#i-lock"></use></svg></span>
+              <h3>Vérifier la signature</h3>
+              <p>Intégrité cryptographique et couverture des octets hors ligne, sans inventer une confiance eIDAS.</p>
+            </article>
+            <article class="bento wide purple" data-reveal>
+              <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><use href="#i-clipboard"></use></svg></span>
+              <h3>Rendre chaque alerte vérifiable</h3>
+              <p>Identifiant versionné, catégorie, sévérité, force de preuve, explication, limites, page et bounding box lorsque la localisation existe.</p>
+            </article>
+            <article class="bento half navy" data-reveal>
+              <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><use href="#i-user-lock"></use></svg></span>
+              <h3>Rester fail-safe</h3>
+              <p>Une information insuffisante, un timeout ou un contrôle central indisponible conduit à INCONCLUSIVE et à une intervention humaine.</p>
+            </article>
+            <article class="bento half" data-reveal>
+              <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><use href="#i-document"></use></svg></span>
+              <h3>Prévisualiser sans activer le PDF</h3>
+              <p>L’interface analyste charge une miniature PNG rasterisée. Elle n’intègre jamais le document PDF original comme contenu actif.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section surface-section">
+        <div class="shell">
+          <div class="section-head centered" data-reveal>
+            <p class="eyebrow">Preuves du snapshot local</p>
+            <h2>Un M1 mesuré, sans promesse commerciale.</h2>
+            <p>Résultats enregistrés le 1er septembre 2026. Le benchmark est mono-processus et ne valide pas un SLO de production.</p>
+          </div>
+          <div class="metric-grid" data-reveal>
+            <div class="metric"><strong data-count="34">34</strong><span>tests backend</span></div>
+            <div class="metric"><strong data-count="3">3</strong><span>tests frontend</span></div>
+            <div class="metric"><strong data-count="83" data-suffix="%">83%</strong><span>couverture</span></div>
+            <div class="metric"><strong data-count="10">10</strong><span>PDF synthétiques</span></div>
+            <div class="metric"><strong data-count="0.06" data-decimals="2" data-suffix=" s">0,06 s</strong><span>p95 API locale</span></div>
+          </div>
+          <p class="metric-note">Python 3.12 · TestClient · SQLite · filesystem local · PDF synthétique de 10 pages · 20 exécutions.</p>
+        </div>
+      </section>
+
+      <section class="section navy-section">
+        <div class="shell" style="position:relative;z-index:1">
+          <div class="section-head" data-reveal>
+            <p class="eyebrow">Ce que la plateforme ne prétend pas</p>
+            <h2>Pas de magie. Pas de certification automatique.</h2>
+            <p>Une inspection réussie ne prouve pas l’authenticité administrative. Une signature absente n’est pas suspecte. Un verdict NORMAL signifie seulement qu’aucune anomalie significative n’a été détectée par les contrôles exécutés.</p>
+          </div>
+          <div class="hero-actions" data-reveal>
+            <a class="button button-mint" href="detecteurs.html">Voir les détecteurs et leurs limites</a>
+            <a class="button button-ghost" href="roadmap.html">Distinguer livré, cible et gates</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div data-site-footer></div>
+  </body>
+</html>

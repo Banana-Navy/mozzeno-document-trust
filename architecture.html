@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; connect-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'">
+    <meta name="description" content="Architecture actuelle, cible de production, choix techniques, bases de références et approche hybride de Mozzeno Document Trust.">
+    <meta name="theme-color" content="#222b54">
+    <title>Architecture · Mozzeno Document Trust</title>
+    <link rel="icon" href="assets/brand/banana-navy-logo.png" type="image/png">
+    <link rel="stylesheet" href="assets/styles.css">
+    <script defer src="assets/app.js"></script>
+  </head>
+  <body data-page="architecture">
+    <a class="skip-link" href="#contenu">Aller au contenu</a>
+    <div data-site-header></div>
+    <noscript><div class="noscript-note">Les deux architectures sont décrites dans le texte. Le comparateur visuel nécessite JavaScript.</div></noscript>
+
+    <main id="contenu">
+      <section class="subhero">
+        <div class="shell">
+          <nav class="breadcrumb" aria-label="Fil d’Ariane"><a href="index.html">Accueil</a><span>›</span><span>Architecture</span></nav>
+          <p class="eyebrow" style="margin-top:28px">Concevoir sans survendre</p>
+          <h1>Un noyau simple aujourd’hui. Une cible <span class="accent">durcie</span> demain.</h1>
+          <p class="lead">Le M1 minimise les dépendances pour valider le contrat et les détecteurs. La production exige ensuite de séparer l’intake, les workers hostiles, le stockage, l’orchestration et l’audit.</p>
+          <div class="status-pills"><span class="pill pill-delivered">Architecture M1 exécutée</span><span class="pill pill-target">Cible production documentée</span><span class="pill pill-gate">Choix infra Mozzeno requis</span></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="shell">
+          <div class="section-head" data-reveal>
+            <p class="eyebrow">Comparateur d’architecture</p>
+            <h2>Basculer entre preuve de concept et exploitation sûre.</h2>
+            <p>La cible n’est pas présentée comme livrée. Elle formalise ce qu’il faut décider et tester avant d’ouvrir la plateforme à de vrais documents.</p>
+          </div>
+          <div class="view-switch" role="group" aria-label="Choisir l’architecture" data-reveal>
+            <button class="switch-button" type="button" aria-pressed="true" data-architecture-switch="current">M1 actuel</button>
+            <button class="switch-button" type="button" aria-pressed="false" data-architecture-switch="target">Production cible</button>
+          </div>
+          <div class="architecture-stage" data-reveal>
+            <div class="architecture-view" data-architecture-view="current">
+              <span class="pill pill-delivered">Exécuté et testé localement</span>
+              <h2 style="margin:28px 0 0;font-size:clamp(2rem,4vw,3.6rem)">Vertical slice mono-instance</h2>
+              <div class="arch-flow">
+                <span class="arch-packet" aria-hidden="true"></span>
+                <article class="arch-node"><b>01</b><strong>React / Vite</strong><small>Interface analyste et preview PNG</small></article>
+                <article class="arch-node"><b>02</b><strong>FastAPI</strong><small>Contrats Pydantic et OpenAPI</small></article>
+                <article class="arch-node"><b>03</b><strong>asyncio</strong><small>Queue locale volatile et bornée</small></article>
+                <article class="arch-node"><b>04</b><strong>Détecteurs locaux</strong><small>pypdf · PDFium · pyHanko</small></article>
+                <article class="arch-node"><b>05</b><strong>SQLite + files</strong><small>Rapports et artefacts locaux</small></article>
+              </div>
+              <div class="callout warning" style="margin-top:34px;color:var(--navy)"><p><strong>Limite structurante :</strong> le parser tourne encore dans le processus applicatif et le filesystem n’est pas immuable au niveau infrastructure.</p></div>
+            </div>
+            <div class="architecture-view" data-architecture-view="target" hidden>
+              <span class="pill pill-target">Design requis avant production</span>
+              <h2 style="margin:28px 0 0;font-size:clamp(2rem,4vw,3.6rem)">Services isolés et auditables</h2>
+              <div class="arch-flow">
+                <span class="arch-packet" aria-hidden="true"></span>
+                <article class="arch-node"><b>01</b><strong>Gateway OIDC</strong><small>MFA, RBAC, quotas et autorisation par objet</small></article>
+                <article class="arch-node"><b>02</b><strong>Intake + Object Lock</strong><small>Quarantaine, antivirus et original immuable</small></article>
+                <article class="arch-node"><b>03</b><strong>Workflow durable</strong><small>Idempotence, retry borné et DLQ</small></article>
+                <article class="arch-node"><b>04</b><strong>Workers sandboxés</strong><small>Non privilégiés, éphémères, sans egress</small></article>
+                <article class="arch-node"><b>05</b><strong>PostgreSQL + WORM</strong><small>Rapports, index gouvernés et audit</small></article>
+              </div>
+              <div class="callout" style="margin-top:34px;color:var(--navy)"><p><strong>Condition :</strong> choix des produits, région, rétention, RPO/RTO et tests de restauration doivent être décidés avec Platform, Security et DPO.</p></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section surface-section">
+        <div class="shell">
+          <div class="section-head" data-reveal>
+            <p class="eyebrow">Pourquoi ces outils</p>
+            <h2>Chaque choix répond à une contrainte, pas à une mode.</h2>
+            <p>Les alternatives ne sont pas “mauvaises”. Elles deviennent pertinentes lorsque la charge, l’organisation ou le niveau de sécurité le justifient.</p>
+          </div>
+          <table class="choice-table" data-reveal>
+            <thead><tr><th>Choix</th><th>Pourquoi ici</th><th>Pourquoi pas davantage maintenant</th></tr></thead>
+            <tbody>
+              <tr><td>Python 3.12 + FastAPI</td><td>Accès direct à l’écosystème PDF/CV/ML, API async, documentation OpenAPI et typage moderne.</td><td>Les calculs lourds devront quitter le processus API. Java ou Node ajouteraient une frontière avec la plupart des détecteurs Python sans valeur au M1.</td></tr>
+              <tr><td>Pydantic v2</td><td>Schémas stricts <code>extra="forbid"</code>, enums stables et validation des bounding boxes.</td><td>Un schéma permissif ferait dériver l’API et compliquerait l’audit des rapports.</td></tr>
+              <tr><td>SQLAlchemy + Alembic</td><td>Transactions, migrations et portabilité du test SQLite vers PostgreSQL.</td><td>Un ORM ne remplace pas le design SQL, les contraintes, RLS ou les tests du dialecte de production.</td></tr>
+              <tr><td>pypdf + PDFium</td><td>Deux vues séparées : structure logique d’un côté, rendu raster de l’autre.</td><td>Un parser unique crée un angle mort. Deux moteurs ne suffisent toutefois pas sans sandbox. PyMuPDF n’est pas retenu dans ce dépôt propriétaire en raison de sa distribution open source AGPL.</td></tr>
+              <tr><td>pyHanko</td><td>Inspection CMS locale, intégrité cryptographique et couverture des révisions.</td><td>La confiance certificat, les révocations et Trusted Lists eIDAS exigent une infrastructure et une politique dédiées.</td></tr>
+              <tr><td>Pillow + ImageHash</td><td>Thumbnail reproductible et pHash léger pour une première empreinte visuelle.</td><td>Le pHash n’est ni une preuve de fraude ni un index de similarité calibré.</td></tr>
+              <tr><td>React + Vite</td><td>Interface interne typée, bundle léger et aucun besoin de rendu serveur public.</td><td>Next.js/SSR ajouterait de la complexité sans bénéfice pour l’outil analyste local.</td></tr>
+              <tr><td>Queue asyncio</td><td>Valide le contrat asynchrone sans ajouter une infrastructure non décidée.</td><td>Elle est volatile. Celery, Dramatiq, Temporal ou une queue cloud ne seront choisis qu’avec les contraintes d’exploitation Mozzeno.</td></tr>
+              <tr><td>SHA-256</td><td>Intégrité et doublon exact déterministes, simples à auditer.</td><td>Une recompression ou une modification minime change le hash et exige d’autres empreintes.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="shell">
+          <div class="section-head" data-reveal>
+            <p class="eyebrow">Bases de données et références</p>
+            <h2>Séparer les usages pour limiter le risque.</h2>
+            <p>Un PDF, un rapport, un hash exact et un embedding n’ont ni le même format, ni la même rétention, ni la même sensibilité.</p>
+          </div>
+          <div class="storage-grid">
+            <article class="storage-card" data-reveal><b>OBJ</b><h3>Originaux &amp; dérivés</h3><p>Object store S3-compatible cible avec chiffrement, versioning et immutabilité. Jamais une base vectorielle.</p></article>
+            <article class="storage-card" data-reveal><b>SQL</b><h3>Métadonnées &amp; rapports</h3><p>PostgreSQL cible pour transactions, états, policy, feedback et recherches structurées.</p></article>
+            <article class="storage-card" data-reveal><b>SHA</b><h3>Doublons exacts</h3><p>Index SHA-256 simple et déterministe. Il répond au besoin M1 sans moteur additionnel.</p></article>
+            <article class="storage-card" data-reveal><b>VEC</b><h3>Similarité future</h3><p>Index séparé pour pHash, layout ou embeddings, éventuellement pgvector après gouvernance et calibration.</p></article>
+          </div>
+          <div class="comparison-grid" style="margin-top:22px">
+            <article class="comparison-card" data-reveal><span class="pill pill-warning">Pourquoi pas maintenant ?</span><h3>Pas de vector database prématurée</h3><ul><li>Aucun corpus réel n’est autorisé.</li><li>Le doublon exact n’en a pas besoin.</li><li>Embeddings et fingerprints peuvent rester personnels.</li><li>Rappel, collisions et suppression ne sont pas calibrés.</li><li>Un service de plus augmente la surface d’attaque et l’exploitation.</li></ul></article>
+            <article class="comparison-card target" data-reveal><span class="pill pill-target">Quand devient-elle utile ?</span><h3>Fraude sérielle et émetteurs</h3><ul><li>Templates quasi identiques avec champs modifiés.</li><li>Évolutions temporelles par émetteur.</li><li>Rapprochement par page ou par zone.</li><li>Index versionné, chiffré et supprimable.</li><li>Évaluation sur un corpus autorisé avec seuils documentés.</li></ul></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section navy-section">
+        <div class="shell" style="position:relative;z-index:1">
+          <div class="section-head" data-reveal>
+            <p class="eyebrow">Systèmes multi-agents</p>
+            <h2>Utiles pour expliquer. Pas pour inventer les preuves.</h2>
+            <p>Le cœur M1 reste déterministe. Une approche hybride future peut ajouter un assistant local, puis un agent critique, sans leur donner le droit de modifier les indicateurs, le verdict ou une décision crédit.</p>
+          </div>
+          <div class="hybrid-flow" data-reveal>
+            <article class="hybrid-node"><b>01 · Déterministe</b><h3>Routeur</h3><p>Choisit les pipelines selon le format et la qualité observés.</p></article>
+            <article class="hybrid-node"><b>02 · Déterministe</b><h3>Workers experts</h3><p>Produisent faits, indicateurs, versions et limites auditables.</p></article>
+            <article class="hybrid-node"><b>03 · Contrat</b><h3>Rapport JSON</h3><p>Source de vérité immuable pour toute explication ultérieure.</p></article>
+            <article class="hybrid-node"><b>04 · IA locale future</b><h3>Assistant + critique</h3><p>Résume, puis vérifie chaque phrase contre un indicator_id existant.</p></article>
+            <article class="hybrid-node"><b>05 · Humain</b><h3>Analyste</h3><p>Interprète le contexte et conserve la décision significative.</p></article>
+          </div>
+          <div class="callout warning" style="margin-top:28px;color:var(--navy)" data-reveal><p><strong>Règle anti-hallucination :</strong> si une phrase ne peut pas citer un fait ou un indicateur du rapport, elle est supprimée. En cas de désaccord entre assistant et critique, aucun résumé génératif n’est présenté.</p></div>
+        </div>
+      </section>
+
+      <section class="section-compact mint-section">
+        <div class="shell decision-banner" data-reveal>
+          <div><h2>La sécurité dépend surtout des frontières.</h2><p>La page suivante distingue les protections déjà présentes des contrôles obligatoires avant production.</p></div>
+          <a class="button button-primary" href="securite.html">Examiner la sécurité</a>
+        </div>
+      </section>
+    </main>
+
+    <div data-site-footer></div>
+  </body>
+</html>

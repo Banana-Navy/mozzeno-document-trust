@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; connect-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'">
+    <meta name="description" content="Démonstration interactive et exclusivement synthétique de Mozzeno Document Trust.">
+    <meta name="theme-color" content="#222b54">
+    <title>Démo synthétique · Mozzeno Document Trust</title>
+    <link rel="icon" href="assets/brand/banana-navy-logo.png" type="image/png">
+    <link rel="stylesheet" href="assets/styles.css">
+    <script defer src="assets/app.js"></script>
+  </head>
+  <body data-page="demo">
+    <a class="skip-link" href="#contenu">Aller au contenu</a>
+    <div data-site-header></div>
+    <noscript><div class="noscript-note">La simulation interactive nécessite JavaScript. Aucun fichier réel n’est accepté sur cette page.</div></noscript>
+
+    <main id="contenu">
+      <section class="subhero">
+        <div class="shell">
+          <nav class="breadcrumb" aria-label="Fil d’Ariane"><a href="index.html">Accueil</a><span>›</span><span>Démo synthétique</span></nav>
+          <p class="eyebrow" style="margin-top:28px">Expérience guidée</p>
+          <h1>Choisir un scénario. Voir le raisonnement <span class="accent">complet.</span></h1>
+          <p class="lead">Cette page rejoue cinq sorties représentatives du moteur avec des données fictives. Elle ne contient aucune zone d’upload et ne contacte aucune API.</p>
+          <div class="status-pills"><span class="pill pill-delivered">Simulation locale</span><span class="pill pill-delivered">Zéro donnée réelle</span><span class="pill pill-warning">Pas une preuve de performance</span></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="shell">
+          <div class="section-head" data-reveal>
+            <p class="eyebrow">1 · Sélectionner un cas</p>
+            <h2>Le même pipeline, des conclusions différentes.</h2>
+            <p>Les scénarios reflètent le contrat et la policy M1. Ils expliquent le comportement&nbsp;; ils ne remplacent pas l’application analyste réelle.</p>
+          </div>
+          <div class="demo-scenarios" role="group" aria-label="Scénarios synthétiques" data-reveal>
+            <button class="scenario-button" type="button" aria-pressed="true" data-demo-scenario="native">PDF natif</button>
+            <button class="scenario-button" type="button" aria-pressed="false" data-demo-scenario="image">Page-image</button>
+            <button class="scenario-button" type="button" aria-pressed="false" data-demo-scenario="signature">Après signature</button>
+            <button class="scenario-button" type="button" aria-pressed="false" data-demo-scenario="duplicate">Doublon exact</button>
+            <button class="scenario-button" type="button" aria-pressed="false" data-demo-scenario="pageLimit">Pages hors quota</button>
+          </div>
+
+          <div class="demo-console" data-reveal>
+            <div class="demo-topbar"><strong>Document Trust · Synthetic Lab</strong><span>Aucun upload · aucun réseau · aucun contenu client</span></div>
+            <div class="demo-grid">
+              <div class="demo-document">
+                <div class="paper" role="img" aria-label="Document de test entièrement fictif avec zone illustrative optionnelle.">
+                  <div class="paper-head"><span class="paper-logo"></span><span class="paper-stamp"></span></div>
+                  <div class="paper-line dark"></div><div class="paper-line medium"></div><div class="paper-line short"></div>
+                  <div class="paper-table">
+                    <div class="paper-row"><span class="paper-line"></span><span class="paper-line dark"></span></div>
+                    <div class="paper-row"><span class="paper-line"></span><span class="paper-line dark"></span></div>
+                    <div class="paper-row"><span class="paper-line"></span><span class="paper-line dark"></span></div>
+                    <div class="paper-row"><span class="paper-line"></span><span class="paper-line dark"></span></div>
+                  </div>
+                  <div class="bounding-box" data-demo-box hidden aria-hidden="true"></div>
+                </div>
+              </div>
+              <div class="demo-report">
+                <div class="analysis-progress" data-demo-progress role="progressbar" aria-label="Progression simulée" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0"><span></span><span></span><span></span><span></span><span></span></div>
+                <div class="report-placeholder" data-demo-placeholder>
+                  <div><div class="scan-ring" aria-hidden="true"></div><p>Scénario prêt. Lancez l’analyse synthétique.</p><button class="button button-primary" type="button" data-demo-run>Analyser ce scénario</button></div>
+                </div>
+                <article class="report-result" data-demo-result hidden aria-live="polite">
+                  <div class="verdict-row"><div><p class="eyebrow">Rapport simulé</p><h2 data-result-title>PDF natif simple</h2></div><span class="verdict-badge" data-result-verdict>NORMAL</span></div>
+                  <div class="report-layers">
+                    <div class="report-layer"><b>1 · Fait observé</b><p data-result-fact></p></div>
+                    <div class="report-layer"><b>2 · Signal forensique</b><p data-result-signal></p></div>
+                    <div class="report-layer"><b>3 · Inférence de policy</b><p data-result-policy></p></div>
+                    <div class="report-layer"><b>4 · Intervention humaine</b><p data-result-analyst></p></div>
+                  </div>
+                  <div class="demo-disclaimer">Cette sortie est une représentation pédagogique. Le rapport réel contient identifiants, versions, faits détaillés, limites et reason codes structurés.</div>
+                  <button class="button button-ghost" style="margin-top:20px" type="button" data-demo-run>Rejouer l’analyse</button>
+                </article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section surface-section">
+        <div class="shell">
+          <div class="section-head" data-reveal>
+            <p class="eyebrow">2 · Lire le résultat correctement</p>
+            <h2>La couleur ne suffit jamais.</h2>
+            <p>Chaque état combine un mot, une action, une explication et une limite. Le vert menthe de l’interface indique un flux actif ou une étape terminée&nbsp;; il ne signifie jamais “document authentique”.</p>
+          </div>
+          <div class="bento-grid">
+            <article class="bento" data-reveal><span class="card-icon">N</span><h3>NORMAL</h3><p>Aucune anomalie matérielle détectée. Ce n’est ni une validation officielle, ni une garantie d’authenticité.</p></article>
+            <article class="bento" data-reveal><span class="card-icon">W</span><h3>WARNING</h3><p>Un signal matériel nécessite du contexte. La revue humaine est obligatoire dans la phase initiale.</p></article>
+            <article class="bento purple" data-reveal><span class="card-icon">?</span><h3>INCONCLUSIVE</h3><p>Qualité ou information insuffisante. Le bon comportement est l’abstention ou la demande d’un original.</p></article>
+            <article class="bento half navy" data-reveal><span class="card-icon">HR</span><h3>HIGH_RISK</h3><p>Réservé à plusieurs catégories indépendantes de preuves fortes. Même ici, le moteur demande une revue et ne refuse pas un crédit.</p></article>
+            <article class="bento half mint" data-reveal><span class="card-icon">X</span><h3>INVALID_INPUT</h3><p>Rejet technique d’un fichier impossible à analyser en sécurité. Ce statut ne qualifie pas l’intention du client.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section navy-section">
+        <div class="shell" style="position:relative;z-index:1">
+          <div class="section-head" data-reveal>
+            <p class="eyebrow">Du démonstrateur au produit</p>
+            <h2>La simulation explique. L’application réelle trace.</h2>
+            <p>L’interface analyste du dépôt réalise déjà le parcours création, upload synthétique, polling, aperçu PNG, rapport, export JSON et feedback. Son authentification actuelle reste strictement locale.</p>
+          </div>
+          <div class="hero-actions" data-reveal><a class="button button-mint" href="architecture.html">Comprendre l’architecture</a><a class="button button-ghost" href="securite.html">Voir les contrôles de sécurité</a></div>
+        </div>
+      </section>
+    </main>
+
+    <div data-site-footer></div>
+  </body>
+</html>
