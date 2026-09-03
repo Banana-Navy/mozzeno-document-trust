@@ -21,6 +21,10 @@
   --shadow-lg: 0 28px 70px rgba(34, 43, 84, 0.14);
   --font: "Segoe UI", "Helvetica Neue", Verdana, Arial, sans-serif;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Deux sections adjacentes cumulent au maximum 2rem (1rem par bord). */
+  --section-edge-space: clamp(0.75rem, 1.2vw, 1rem);
+  --section-content-space: clamp(1.25rem, 2vw, 2rem);
+  --bento-gap: clamp(0.75rem, 1.2vw, 1rem);
 }
 
 * {
@@ -180,11 +184,11 @@ p {
 }
 
 .section {
-  padding-block: clamp(72px, 9vw, 128px);
+  padding-block: var(--section-edge-space);
 }
 
 .section-compact {
-  padding-block: clamp(48px, 6vw, 80px);
+  padding-block: var(--section-edge-space);
 }
 
 .surface-section {
@@ -216,8 +220,8 @@ p {
 .section-head {
   display: grid;
   max-width: 850px;
-  gap: 18px;
-  margin-bottom: 48px;
+  gap: clamp(0.65rem, 1.2vw, 1rem);
+  margin-bottom: var(--section-content-space);
 }
 
 .section-head.centered {
@@ -470,7 +474,8 @@ p {
   position: relative;
   overflow: hidden;
   min-height: calc(100svh - 112px);
-  padding-block: clamp(48px, 6vw, 82px);
+  padding-block: clamp(2rem, 5vw, 4.5rem);
+  padding-block-end: var(--section-edge-space);
 }
 
 .hero::before {
@@ -591,7 +596,7 @@ p {
   position: relative;
   overflow: hidden;
   border-bottom: 1px solid var(--line);
-  padding-block: clamp(64px, 8vw, 110px);
+  padding-block: var(--section-edge-space);
 }
 
 .subhero::after {
@@ -672,20 +677,22 @@ p {
 .bento-grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  gap: 18px;
+  gap: var(--bento-gap);
 }
 
 .bento {
+  --bento-lift: 0px;
+  --bento-scale: 1;
   position: relative;
   overflow: hidden;
   grid-column: span 4;
-  min-height: 300px;
+  min-height: clamp(12.5rem, 17vw, 14.5rem);
   border: 1px solid var(--line);
-  border-radius: 22px;
+  border-radius: clamp(1rem, 1.5vw, 1.25rem);
   background: white;
-  padding: 30px;
+  padding: clamp(1.05rem, 1.8vw, 1.4rem);
   box-shadow: var(--shadow-sm);
-  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transform: perspective(900px) translateY(var(--bento-lift)) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale(var(--bento-scale));
   transition: transform 0.22s var(--ease), box-shadow 0.22s ease, border-color 0.22s ease;
 }
 
@@ -699,13 +706,17 @@ p {
   transition: opacity 0.2s ease;
 }
 
-.bento:hover {
-  border-color: rgba(107, 217, 168, 0.75);
-  box-shadow: var(--shadow-lg);
-}
+@media (hover: hover) and (pointer: fine) {
+  .bento:hover {
+    --bento-lift: -3px;
+    --bento-scale: 1.008;
+    border-color: rgba(107, 217, 168, 0.75);
+    box-shadow: var(--shadow-lg);
+  }
 
-.bento:hover::after {
-  opacity: 1;
+  .bento:hover::after {
+    opacity: 1;
+  }
 }
 
 .bento > * {
@@ -741,10 +752,10 @@ p {
 
 .card-icon {
   display: grid;
-  width: 58px;
-  height: 58px;
+  width: clamp(2.65rem, 3.5vw, 3rem);
+  height: clamp(2.65rem, 3.5vw, 3rem);
   place-items: center;
-  border-radius: 16px;
+  border-radius: 0.8rem;
   background: var(--surface);
   color: var(--navy);
   font-size: 0.76rem;
@@ -754,9 +765,11 @@ p {
   transition: box-shadow 0.25s var(--ease), transform 0.25s var(--ease);
 }
 
-.bento:hover .card-icon {
-  box-shadow: 0 14px 32px rgba(107, 217, 168, 0.22);
-  transform: translateY(-2px);
+@media (hover: hover) and (pointer: fine) {
+  .bento:hover .card-icon {
+    box-shadow: 0 14px 32px rgba(107, 217, 168, 0.22);
+    transform: translateY(-2px);
+  }
 }
 
 .bento.mint .card-icon {
@@ -769,14 +782,14 @@ p {
 }
 
 .bento h3 {
-  margin: 42px 0 12px;
-  font-size: clamp(1.45rem, 2vw, 2rem);
+  margin: clamp(1rem, 2vw, 1.5rem) 0 0.55rem;
+  font-size: clamp(1.2rem, 1.65vw, 1.58rem);
 }
 
 .bento p {
   margin-bottom: 0;
   color: var(--navy-hover);
-  font-size: 0.93rem;
+  font-size: clamp(0.82rem, 0.9vw, 0.89rem);
 }
 
 .bento.navy p {
@@ -787,7 +800,7 @@ p {
   position: relative;
   overflow: hidden;
   background: linear-gradient(145deg, #fff 0%, #fbfcfd 58%, #f4fbf8 100%);
-  padding-block: clamp(64px, 6vw, 92px);
+  padding-block: var(--section-edge-space);
 }
 
 .separation-section > .shell {
@@ -824,7 +837,7 @@ p {
   z-index: 1;
   max-width: 860px;
   gap: 14px;
-  margin-bottom: 36px;
+  margin-bottom: var(--section-content-space);
 }
 
 .separation-heading h2 {
@@ -1565,9 +1578,21 @@ p {
     gap: 18px;
   }
 
-  .engine-card-grid::before,
+  .engine-card-grid::before {
+    top: 50%;
+    left: 50%;
+    display: block;
+    width: 3px;
+    height: 20px;
+    background: linear-gradient(180deg, var(--purple), var(--mint));
+    transform: translate(-50%, -50%);
+  }
+
   .engine-card-grid::after {
-    display: none;
+    top: 50%;
+    left: 50%;
+    display: block;
+    animation: separation-transfer-mobile 3.8s var(--ease) 2;
   }
 
   .separation-card {
@@ -2343,18 +2368,18 @@ p {
 .pipeline-detail {
   position: sticky;
   top: 118px;
-  min-height: 520px;
-  border-radius: 28px;
+  min-height: clamp(26rem, 42vw, 31rem);
+  border-radius: 24px;
   background: var(--navy);
-  padding: clamp(30px, 5vw, 56px);
+  padding: clamp(1.5rem, 3vw, 2.25rem);
   color: white;
   box-shadow: var(--shadow-lg);
 }
 
 .pipeline-detail-number {
   display: grid;
-  width: 64px;
-  height: 64px;
+  width: 56px;
+  height: 56px;
   place-items: center;
   border-radius: 18px;
   background: var(--mint);
@@ -2364,7 +2389,7 @@ p {
 }
 
 .pipeline-detail h2 {
-  margin: 48px 0 16px;
+  margin: 2rem 0 0.75rem;
   font-size: clamp(2.3rem, 5vw, 4.6rem);
 }
 
@@ -2378,7 +2403,7 @@ p {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
-  margin-top: 34px;
+  margin-top: 1.5rem;
 }
 
 .detail-facts div {
@@ -2441,12 +2466,12 @@ p {
 
 .detector-card {
   display: flex;
-  min-height: 340px;
+  min-height: clamp(17rem, 22vw, 19rem);
   flex-direction: column;
   border: 1px solid var(--line);
   border-radius: 20px;
   background: white;
-  padding: 26px;
+  padding: clamp(1rem, 1.6vw, 1.375rem);
   box-shadow: var(--shadow-sm);
 }
 
@@ -2463,8 +2488,8 @@ p {
 
 .detector-code > b {
   display: grid;
-  width: 50px;
-  height: 50px;
+  width: 44px;
+  height: 44px;
   place-items: center;
   border-radius: 14px;
   background: var(--surface);
@@ -2472,8 +2497,8 @@ p {
 }
 
 .detector-card h3 {
-  margin: 34px 0 10px;
-  font-size: 1.65rem;
+  margin: 1.5rem 0 0.5rem;
+  font-size: 1.4rem;
 }
 
 .detector-card p {
@@ -2619,7 +2644,7 @@ p {
   border: 1px solid var(--line);
   border-radius: 24px;
   background: white;
-  padding: 34px;
+  padding: clamp(1.125rem, 2vw, 1.5rem);
   box-shadow: var(--shadow-sm);
 }
 
@@ -2630,7 +2655,7 @@ p {
 }
 
 .indicator-card h3 {
-  margin: 40px 0 14px;
+  margin: 1.75rem 0 0.75rem;
   font-size: clamp(1.7rem, 3vw, 2.5rem);
 }
 
@@ -2755,8 +2780,8 @@ p {
 }
 
 .demo-report {
-  min-height: 610px;
-  padding: clamp(28px, 4vw, 48px);
+  min-height: 32rem;
+  padding: clamp(1.5rem, 3vw, 2.25rem);
 }
 
 .analysis-progress {
@@ -2877,10 +2902,10 @@ p {
 }
 
 .architecture-stage {
-  min-height: 640px;
-  border-radius: 28px;
+  min-height: 32rem;
+  border-radius: 24px;
   background: var(--navy);
-  padding: clamp(28px, 5vw, 58px);
+  padding: clamp(1.5rem, 3vw, 2.25rem);
   color: white;
   box-shadow: var(--shadow-lg);
 }
@@ -2894,7 +2919,7 @@ p {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 14px;
-  margin-top: 44px;
+  margin-top: 2rem;
 }
 
 .arch-flow::before {
@@ -2911,11 +2936,11 @@ p {
 .arch-node {
   position: relative;
   z-index: 1;
-  min-height: 170px;
+  min-height: 9rem;
   border: 1px solid rgba(255, 255, 255, 0.13);
   border-radius: 16px;
   background: #2c3766;
-  padding: 22px 16px;
+  padding: 1.125rem 0.875rem;
   text-align: center;
 }
 
@@ -2924,7 +2949,7 @@ p {
   width: 44px;
   height: 44px;
   place-items: center;
-  margin: 0 auto 28px;
+  margin: 0 auto 1.25rem;
   border-radius: 50%;
   background: var(--mint);
   color: var(--navy);
@@ -3017,7 +3042,7 @@ p {
   border: 1px solid var(--line);
   border-radius: 19px;
   background: white;
-  padding: 24px;
+  padding: clamp(1rem, 1.6vw, 1.375rem);
   box-shadow: var(--shadow-sm);
 }
 
@@ -3036,7 +3061,7 @@ p {
 .storage-card h3,
 .security-card h3,
 .gate-card h3 {
-  margin: 28px 0 10px;
+  margin: 1.25rem 0 0.5rem;
   font-size: 1.3rem;
 }
 
@@ -3061,11 +3086,11 @@ p {
 
 .hybrid-node {
   position: relative;
-  min-height: 180px;
+  min-height: 9.5rem;
   border: 1px solid rgba(255, 255, 255, 0.13);
   border-radius: 17px;
   background: rgba(255, 255, 255, 0.06);
-  padding: 24px 18px;
+  padding: 1.125rem 1rem;
 }
 
 .hybrid-node:not(:last-child)::after {
@@ -3086,7 +3111,7 @@ p {
 }
 
 .hybrid-node h3 {
-  margin: 28px 0 10px;
+  margin: 1.25rem 0 0.5rem;
   font-size: 1.25rem;
 }
 
@@ -3098,7 +3123,7 @@ p {
 
 .boundary-map {
   position: relative;
-  min-height: 640px;
+  min-height: 36rem;
   overflow: hidden;
   border-radius: 28px;
   background: var(--navy);
@@ -3195,11 +3220,11 @@ p {
   border: 1px solid var(--line);
   border-radius: 22px;
   background: white;
-  padding: 30px;
+  padding: clamp(1rem, 1.6vw, 1.375rem);
 }
 
 .comparison-card h3 {
-  margin: 22px 0 18px;
+  margin: 1.25rem 0 1rem;
   font-size: 1.75rem;
 }
 
@@ -3237,11 +3262,11 @@ p {
 
 .gov-step {
   position: relative;
-  min-height: 260px;
+  min-height: 13rem;
   border: 1px solid var(--line);
   border-radius: 18px;
   background: white;
-  padding: 22px 18px;
+  padding: 1.125rem 1rem 3.75rem;
 }
 
 .gov-step::before {
@@ -3266,7 +3291,7 @@ p {
 }
 
 .gov-step h3 {
-  margin: 34px 0 10px;
+  margin: 1.4rem 0 0.5rem;
   font-size: 1.2rem;
 }
 
@@ -3295,7 +3320,7 @@ p {
   border: 1px solid var(--line);
   border-radius: 16px;
   background: white;
-  padding: 22px;
+  padding: 1.125rem;
 }
 
 .life-step:not(:last-child)::after {
@@ -3322,7 +3347,7 @@ p {
 }
 
 .life-step h3 {
-  margin: 30px 0 8px;
+  margin: 1.25rem 0 0.5rem;
   font-size: 1.25rem;
 }
 
@@ -3357,7 +3382,7 @@ p {
   border: 1px solid var(--line);
   border-radius: 19px;
   background: white;
-  padding: 22px 24px;
+  padding: 1rem 1.25rem;
   box-shadow: var(--shadow-sm);
 }
 
@@ -3624,6 +3649,79 @@ p {
   transform: none;
 }
 
+/* Preserve bento motion after the shared reveal transform has completed. */
+.js-enabled .bento[data-reveal] {
+  transform: perspective(900px) translateY(calc(22px + var(--bento-lift))) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale(var(--bento-scale));
+  transition: opacity 0.5s var(--ease), transform 0.42s var(--ease), box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.js-enabled .bento[data-reveal][data-visible="true"] {
+  transform: perspective(900px) translateY(var(--bento-lift)) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale(var(--bento-scale));
+  transition: opacity 0.5s var(--ease), transform 0.22s var(--ease), box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .bento.is-inview {
+    --bento-lift: -3px;
+    --bento-scale: 1.008;
+    border-color: rgba(107, 217, 168, 0.75);
+    box-shadow: 0 16px 36px rgba(34, 43, 84, 0.13);
+  }
+
+  .bento.is-inview::after {
+    opacity: 1;
+    animation: mobile-bento-glow 0.8s var(--ease) both;
+  }
+
+  .bento.is-inview .card-icon {
+    box-shadow: 0 12px 28px rgba(107, 217, 168, 0.22);
+    transform: translateY(-2px) scale(1.035);
+    animation: mobile-bento-icon 0.8s var(--ease) both;
+  }
+}
+
+.bento.is-touch-active {
+  --bento-lift: -1px;
+  --bento-scale: 0.992;
+  border-color: rgba(107, 217, 168, 0.75);
+  box-shadow: 0 16px 36px rgba(34, 43, 84, 0.13);
+}
+
+.bento.is-touch-active::after {
+  opacity: 1;
+  animation: none;
+}
+
+.bento.is-touch-active .card-icon {
+  box-shadow: 0 12px 28px rgba(107, 217, 168, 0.22);
+  transform: translateY(-2px) scale(1.035);
+  animation: none;
+}
+
+.bento:active {
+  --bento-lift: -1px;
+  --bento-scale: 0.992;
+}
+
+/* Les animations finies démarrent quand leur bloc devient réellement visible. */
+.js-enabled .trust-console .scan-beam,
+.js-enabled .trust-console .pipeline-runner,
+.js-enabled .trust-console .console-pipeline li,
+.js-enabled .decision-map .engine-card-grid::after,
+.js-enabled .architecture-stage .arch-packet,
+.js-enabled .architecture-stage .arch-node b {
+  animation-play-state: paused;
+}
+
+.js-enabled .trust-console[data-visible="true"] .scan-beam,
+.js-enabled .trust-console[data-visible="true"] .pipeline-runner,
+.js-enabled .trust-console[data-visible="true"] .console-pipeline li,
+.js-enabled .decision-map[data-visible="true"] .engine-card-grid::after,
+.js-enabled .architecture-stage[data-visible="true"] .arch-packet,
+.js-enabled .architecture-stage[data-visible="true"] .arch-node b {
+  animation-play-state: running;
+}
+
 .noscript-note {
   border-bottom: 1px solid var(--line);
   background: var(--warning-soft);
@@ -3631,6 +3729,56 @@ p {
   color: var(--navy);
   font-size: 0.8rem;
   text-align: center;
+}
+
+@keyframes mobile-bento-glow {
+  0% { opacity: 0; }
+  55%, 100% { opacity: 1; }
+}
+
+@keyframes mobile-bento-icon {
+  0% { transform: none; }
+  60%, 100% { transform: translateY(-2px) scale(1.035); }
+}
+
+@keyframes mobile-pipeline-pulse {
+  0%, 55%, 100% {
+    transform: none;
+    box-shadow: 0 8px 20px rgba(34, 43, 84, 0.06);
+  }
+  15%, 30% {
+    transform: translateY(-3px) scale(1.012);
+    box-shadow: 0 14px 30px rgba(107, 217, 168, 0.22);
+  }
+}
+
+@keyframes separation-transfer-mobile {
+  0%, 12% {
+    opacity: 0;
+    transform: translate(-50%, -13px);
+  }
+  24% {
+    opacity: 1;
+  }
+  72% {
+    opacity: 1;
+    transform: translate(-50%, 7px);
+  }
+  84%, 100% {
+    opacity: 0;
+    transform: translate(-50%, 7px);
+  }
+}
+
+@keyframes mobile-arch-node-pulse {
+  0%, 58%, 100% {
+    transform: none;
+    box-shadow: none;
+  }
+  16%, 34% {
+    transform: scale(1.08);
+    box-shadow: 0 0 0 9px rgba(107, 217, 168, 0.14);
+  }
 }
 
 @media (max-width: 1180px) {
@@ -3726,6 +3874,21 @@ p {
     border-top: 1px solid var(--line);
     border-left: 0;
     padding: 26px 0 0;
+  }
+}
+
+@media (max-width: 1024px) {
+  .bento {
+    grid-column: span 6;
+  }
+
+  .bento.wide,
+  .bento.full {
+    grid-column: 1 / -1;
+  }
+
+  .bento.half {
+    grid-column: span 6;
   }
 }
 
@@ -3828,6 +3991,15 @@ p {
     display: none;
   }
 
+  .console-pipeline li {
+    animation: mobile-pipeline-pulse 3.8s var(--ease) 2;
+  }
+
+  .console-pipeline li:nth-child(2) { animation-delay: 0.32s; }
+  .console-pipeline li:nth-child(3) { animation-delay: 0.64s; }
+  .console-pipeline li:nth-child(4) { animation-delay: 0.96s; }
+  .console-pipeline li:nth-child(5) { animation-delay: 1.28s; }
+
   .bento-grid,
   .metric-grid,
   .detector-grid,
@@ -3852,6 +4024,7 @@ p {
   .bento.wide,
   .bento.half {
     grid-column: 1 / -1;
+    min-height: 0;
   }
 
   .metric-grid {
@@ -3872,13 +4045,40 @@ p {
   }
 
   .document-mock {
-    min-height: 480px;
-    padding: 22px;
+    min-height: 0;
+    padding: 1rem;
   }
 
-  .paper {
-    min-height: 430px;
-    padding: 32px 26px;
+  .paper,
+  .demo-document .paper {
+    min-height: 24rem;
+    padding: 1.5rem 1.25rem;
+  }
+
+  .detector-card,
+  .pipeline-detail,
+  .architecture-stage,
+  .arch-node,
+  .hybrid-node {
+    min-height: 0;
+  }
+
+  .demo-report {
+    min-height: 0;
+    padding: 1.25rem;
+  }
+
+  .report-placeholder {
+    min-height: 16rem;
+  }
+
+  .architecture-stage {
+    padding: 1.25rem;
+  }
+
+  .gov-step {
+    min-height: 0;
+    padding-bottom: 3.75rem;
   }
 
   .demo-document {
@@ -3894,6 +4094,15 @@ p {
   .arch-packet {
     display: none;
   }
+
+  .arch-node b {
+    animation: mobile-arch-node-pulse 3.8s var(--ease) 2;
+  }
+
+  .arch-node:nth-child(2) b { animation-delay: 0.32s; }
+  .arch-node:nth-child(3) b { animation-delay: 0.64s; }
+  .arch-node:nth-child(4) b { animation-delay: 0.96s; }
+  .arch-node:nth-child(5) b { animation-delay: 1.28s; }
 
   .arch-node {
     min-height: 0;
@@ -3923,7 +4132,7 @@ p {
   }
 
   .boundary-map {
-    min-height: 560px;
+    min-height: 32rem;
   }
 
   .boundary-ring.one { width: 390px; height: 390px; }
@@ -3972,7 +4181,7 @@ p {
 
   .hero,
   .subhero {
-    padding-block: 58px;
+    padding-block: var(--section-edge-space);
   }
 
   .hero-copy h1,
@@ -4071,12 +4280,15 @@ p {
     grid-template-columns: 1fr;
   }
 
-  .bento,
+  .bento {
+    padding: 1rem;
+  }
+
   .detector-card,
   .comparison-card,
   .indicator-card,
   .architecture-stage {
-    padding: 24px;
+    padding: 1.15rem;
   }
 
   .pipeline-step {
@@ -4112,6 +4324,74 @@ p {
   }
 }
 
+@media (max-width: 360px) {
+  .decision-map {
+    padding: 8px;
+  }
+
+  .separation-card {
+    overflow: hidden;
+    padding: 12px;
+  }
+
+  .fact-visual.visual-kit-slice {
+    width: 238px;
+    height: 202px;
+    background-position: -20px -238px;
+    background-size: 919px 612px;
+  }
+
+  .signal-visual {
+    width: 229px;
+    height: 229px;
+  }
+
+  .signal-signature {
+    width: 229px;
+    height: 85px;
+    background-position: -260px -158px;
+    background-size: 838px 559px;
+  }
+
+  .signal-inspection {
+    width: 202px;
+    height: 144px;
+    margin-top: -2px;
+    background-position: -260px -246px;
+    background-size: 838px 559px;
+  }
+
+  .signal-qualifiers {
+    width: 250px;
+    height: 39px;
+    background-position: -168px -397px;
+    background-size: 811px 540px;
+  }
+
+  .human-review-visual.visual-kit-slice {
+    width: 247px;
+    height: 78px;
+    background-position: -414px -126px;
+    background-size: 676px 451px;
+  }
+
+  .review-options {
+    width: 249px;
+    height: 43px;
+    background-position: -597px -357px;
+    background-size: 865px 576px;
+  }
+
+  .human-rule {
+    width: 248px;
+    min-height: 48px;
+    background-position: -539px -388px;
+    background-size: 804px 536px;
+    padding: 5px 7px 5px 55px;
+    font-size: 0.5rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -4126,7 +4406,7 @@ p {
     transition-duration: 0.001ms !important;
   }
 
-  [data-reveal] {
+  .js-enabled [data-reveal] {
     opacity: 1;
     transform: none;
   }

@@ -15,6 +15,7 @@ const pages = new Map([
 ]);
 
 const failures = [];
+let totalBentos = 0;
 const assert = (condition, message) => {
   if (!condition) failures.push(message);
 };
@@ -55,7 +56,18 @@ for (const [filename, pageKey] of pages) {
   for (const image of html.matchAll(/<img\b([^>]*)>/g)) {
     assert(/\balt="[^"]*"/.test(image[1]), `${filename}: image sans attribut alt`);
   }
+
+  const bentoTags = [...html.matchAll(/<[^>]+\bclass="([^"]+)"[^>]*>/g)].filter((match) =>
+    match[1].split(/\s+/).includes("bento"),
+  );
+  totalBentos += bentoTags.length;
+  assert(
+    bentoTags.every((match) => /\bdata-reveal\b/.test(match[0])),
+    `${filename}: chaque bento doit conserver son animation d'apparition`,
+  );
 }
+
+assert(totalBentos === 26, `showcase: 26 bentos attendus, ${totalBentos} trouvés`);
 
 const app = readFileSync(join(root, "assets/app.js"), "utf8");
 const css = readFileSync(join(root, "assets/styles.css"), "utf8");
@@ -65,6 +77,29 @@ assert(!/\b(?:fetch|XMLHttpRequest|WebSocket|EventSource|sendBeacon)\b/.test(app
 assert(!/(?:mailto:|tel:)/i.test(app), "app.js: contact personnel interdit");
 assert(/rel="noopener noreferrer"/.test(app), "app.js: lien externe sans isolation explicite");
 assert((css.match(/{/g) || []).length === (css.match(/}/g) || []).length, "styles.css: accolades déséquilibrées");
+assert(app.includes("function setupBentoMotion()"), "app.js: orchestration bento responsive absente");
+assert(app.includes('classList.toggle("is-inview"'), "app.js: animation bento au défilement absente");
+assert(app.includes('classList.add("is-touch-active"'), "app.js: retour tactile bento absent");
+assert(app.includes('addEventListener("pointerout"'), "app.js: repli pointerout absent");
+assert(app.includes("cancelAnimationFrame"), "app.js: annulation du tilt différé absente");
+assert(!app.includes("setupTilt"), "app.js: ancien tilt non responsive encore présent");
+assert(
+  css.includes("--section-edge-space: clamp(0.75rem, 1.2vw, 1rem)"),
+  "styles.css: plafond cumulé de 2rem entre sections absent",
+);
+for (const animationName of [
+  "mobile-bento-glow",
+  "mobile-pipeline-pulse",
+  "separation-transfer-mobile",
+  "mobile-arch-node-pulse",
+]) {
+  assert(css.includes(`@keyframes ${animationName}`), `styles.css: animation mobile absente ${animationName}`);
+}
+assert(
+  css.includes("animation-play-state: paused") && css.includes('[data-visible="true"]'),
+  "styles.css: démarrage des animations avant visibilité",
+);
+assert(css.includes("@media (max-width: 360px)"), "styles.css: adaptation aux écrans de 320px absente");
 assert(existsSync(visualKit), "assets: planche visuelle de séparation absente");
 assert(css.includes('url("illustrations/separation-visual-kit.png")'), "styles.css: planche visuelle non référencée localement");
 for (const filename of pages.keys()) {

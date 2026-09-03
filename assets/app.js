@@ -215,26 +215,131 @@
     counters.forEach((counter) => observer.observe(counter));
   }
 
-  function setupTilt() {
-    if (
-      !window.matchMedia("(pointer: fine)").matches ||
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    )
-      return;
-    document.querySelectorAll(".bento").forEach((card) => {
+  function setupBentoMotion() {
+    const cards = [...document.querySelectorAll(".bento")];
+    if (!cards.length) return;
+
+    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const touchTimers = new WeakMap();
+    const pointerFrames = new WeakMap();
+
+    const cancelPointerFrame = (card) => {
+      const frame = pointerFrames.get(card);
+      if (frame) window.cancelAnimationFrame(frame);
+      pointerFrames.delete(card);
+    };
+
+    const resetCard = (card) => {
+      cancelPointerFrame(card);
+      const timer = touchTimers.get(card);
+      if (timer) window.clearTimeout(timer);
+      touchTimers.delete(card);
+      card.classList.remove("is-touch-active", "is-inview");
+      card.style.removeProperty("--rx");
+      card.style.removeProperty("--ry");
+      card.style.removeProperty("--mx");
+      card.style.removeProperty("--my");
+    };
+
+    const resetTouch = (card, delay = 240) => {
+      const current = touchTimers.get(card);
+      if (current) window.clearTimeout(current);
+      touchTimers.set(
+        card,
+        window.setTimeout(() => {
+          card.classList.remove("is-touch-active");
+          touchTimers.delete(card);
+        }, delay),
+      );
+    };
+
+    let mobileObserver = null;
+    if ("IntersectionObserver" in window) {
+      mobileObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (finePointer.matches || reduceMotion.matches) {
+              entry.target.classList.remove("is-inview");
+              return;
+            }
+            entry.target.classList.toggle("is-inview", entry.isIntersecting);
+          });
+        },
+        { rootMargin: "-28% 0px -28% 0px", threshold: 0.08 },
+      );
+      cards.forEach((card) => mobileObserver.observe(card));
+    }
+
+    cards.forEach((card) => {
+      let pointerX = 0;
+      let pointerY = 0;
+
       card.addEventListener("pointermove", (event) => {
+        if (!finePointer.matches || reduceMotion.matches || event.pointerType === "touch") return;
+        pointerX = event.clientX;
+        pointerY = event.clientY;
+        if (pointerFrames.has(card)) return;
+        const frame = window.requestAnimationFrame(() => {
+          const rect = card.getBoundingClientRect();
+          const x = Math.min(Math.max((pointerX - rect.left) / rect.width, 0), 1);
+          const y = Math.min(Math.max((pointerY - rect.top) / rect.height, 0), 1);
+          card.style.setProperty("--mx", `${x * 100}%`);
+          card.style.setProperty("--my", `${y * 100}%`);
+          card.style.setProperty("--ry", `${(x - 0.5) * 3}deg`);
+          card.style.setProperty("--rx", `${(0.5 - y) * 3}deg`);
+          pointerFrames.delete(card);
+        });
+        pointerFrames.set(card, frame);
+      });
+
+      card.addEventListener("pointerdown", (event) => {
+        if (reduceMotion.matches || (finePointer.matches && event.pointerType !== "touch")) return;
         const rect = card.getBoundingClientRect();
-        const x = (event.clientX - rect.left) / rect.width;
-        const y = (event.clientY - rect.top) / rect.height;
+        const x = Math.min(Math.max((event.clientX - rect.left) / rect.width, 0), 1);
+        const y = Math.min(Math.max((event.clientY - rect.top) / rect.height, 0), 1);
         card.style.setProperty("--mx", `${x * 100}%`);
         card.style.setProperty("--my", `${y * 100}%`);
-        card.style.setProperty("--ry", `${(x - 0.5) * 3}deg`);
-        card.style.setProperty("--rx", `${(0.5 - y) * 3}deg`);
+        card.classList.add("is-touch-active");
+        resetTouch(card, 420);
       });
-      card.addEventListener("pointerleave", () => {
+
+      const handleExit = (event) => {
+        if (
+          event.type === "pointerout" &&
+          event.relatedTarget instanceof Node &&
+          card.contains(event.relatedTarget)
+        )
+          return;
+        cancelPointerFrame(card);
         card.style.removeProperty("--rx");
         card.style.removeProperty("--ry");
-      });
+        if (event.pointerType === "touch" || !finePointer.matches) resetTouch(card);
+      };
+
+      card.addEventListener("pointerup", () => resetTouch(card));
+      card.addEventListener("pointercancel", handleExit);
+      card.addEventListener("pointerleave", handleExit);
+      card.addEventListener("pointerout", handleExit);
+    });
+
+    const refreshMotionMode = () => {
+      cards.forEach(resetCard);
+      if (mobileObserver) {
+        cards.forEach((card) => {
+          mobileObserver.unobserve(card);
+          mobileObserver.observe(card);
+        });
+      }
+    };
+
+    finePointer.addEventListener?.("change", refreshMotionMode);
+    reduceMotion.addEventListener?.("change", refreshMotionMode);
+    window.addEventListener("blur", () => cards.forEach(resetCard));
+    window.addEventListener("focus", refreshMotionMode);
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) cards.forEach(resetCard);
+      else refreshMotionMode();
     });
   }
 
@@ -472,7 +577,7 @@
   setupProgress();
   setupReveal();
   setupCounters();
-  setupTilt();
+  setupBentoMotion();
   setupPipeline();
   setupDetectorFilters();
   setupArchitectureSwitch();
