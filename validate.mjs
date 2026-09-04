@@ -78,6 +78,9 @@ assert(!/(?:mailto:|tel:)/i.test(app), "app.js: contact personnel interdit");
 assert(/rel="noopener noreferrer"/.test(app), "app.js: lien externe sans isolation explicite");
 assert((css.match(/{/g) || []).length === (css.match(/}/g) || []).length, "styles.css: accolades déséquilibrées");
 assert(app.includes("function setupBentoMotion()"), "app.js: orchestration bento responsive absente");
+assert(app.includes("function setupMobileBentoStack()"), "app.js: empilage bento mobile absent");
+assert(app.includes('classList.add("has-mobile-stack")'), "app.js: activation empilage mobile absente");
+assert(app.includes('matchMedia("(max-width: 780px)")'), "app.js: breakpoint empilage mobile absent");
 assert(app.includes('classList.toggle("is-inview"'), "app.js: animation bento au défilement absente");
 assert(app.includes('classList.add("is-touch-active"'), "app.js: retour tactile bento absent");
 assert(app.includes('addEventListener("pointerout"'), "app.js: repli pointerout absent");
@@ -100,6 +103,8 @@ assert(
   "styles.css: démarrage des animations avant visibilité",
 );
 assert(css.includes("@media (max-width: 360px)"), "styles.css: adaptation aux écrans de 320px absente");
+assert(css.includes(".bento-grid.has-mobile-stack"), "styles.css: composition sticky des bentos absente");
+assert(css.includes("--stack-scale"), "styles.css: transformation progressive de l'empilage absente");
 assert(existsSync(visualKit), "assets: planche visuelle de séparation absente");
 assert(css.includes('url("illustrations/separation-visual-kit.png")'), "styles.css: planche visuelle non référencée localement");
 for (const filename of pages.keys()) {
@@ -112,6 +117,13 @@ assert(demo.includes("data-real-console-link"), "demo.html: passerelle vers la c
 assert(!app.includes("demoScenarios"), "app.js: résultats codés en dur encore présents");
 
 const home = readFileSync(join(root, "index.html"), "utf8");
+assert(
+  (home.match(/<span class="accent">/g) || []).length === 2 &&
+    home.includes('<span class="accent">fraude documentaire</span>') &&
+    home.includes('<span class="accent">score.</span>'),
+  "index.html: mots verts du H1 incomplets",
+);
+assert(!css.includes(".hero-copy h1 .accent::after"), "styles.css: soulignage du H1 encore actif");
 assert(home.includes("Illustration · scénario synthétique"), "index.html: marquage synthétique du hero absent");
 assert(home.includes("WARNING · revue requise"), "index.html: contrat WARNING vers revue absent");
 assert(home.includes('id="separation-moteur-humain"'), "index.html: frontière moteur-humain absente");

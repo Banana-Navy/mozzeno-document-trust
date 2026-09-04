@@ -357,6 +357,124 @@
     });
   }
 
+  function setupMobileBentoStack() {
+    const stacks = [...document.querySelectorAll(".bento-grid")]
+      .map((grid) => ({
+        grid,
+        cards: [...grid.children].filter((item) => item.classList.contains("bento")),
+      }))
+      .filter(({ cards }) => cards.length > 1);
+    if (!stacks.length) return;
+
+    const mobileViewport = window.matchMedia("(max-width: 780px)");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let animationFrame = 0;
+    let isActive = false;
+
+    const clamp = (value, minimum, maximum) => Math.min(Math.max(value, minimum), maximum);
+    const stackBaseTop = () => (currentPage === "demo" ? 82 : 14);
+    const stackStep = (cardCount) => {
+      const spread = Math.min(42, Math.max(28, window.innerHeight * 0.05));
+      return spread / Math.max(cardCount - 1, 1);
+    };
+
+    const clearStack = () => {
+      if (animationFrame) window.cancelAnimationFrame(animationFrame);
+      animationFrame = 0;
+      stacks.forEach(({ grid, cards }) => {
+        grid.classList.remove("has-mobile-stack");
+        cards.forEach((card) => {
+          card.classList.remove("is-stack-pinned", "is-stack-covered");
+          card.style.removeProperty("--stack-top");
+          card.style.removeProperty("--stack-z");
+          card.style.removeProperty("--stack-shift");
+          card.style.removeProperty("--stack-scale");
+        });
+      });
+    };
+
+    const updateStack = () => {
+      animationFrame = 0;
+      if (!isActive) return;
+
+      stacks.forEach(({ grid, cards }) => {
+        if (!grid.classList.contains("has-mobile-stack")) return;
+        const gridRect = grid.getBoundingClientRect();
+        const gridHasRoom = gridRect.bottom > 0;
+        const step = stackStep(cards.length);
+
+        cards.forEach((card, index) => {
+          const top = stackBaseTop() + index * step;
+          const cardRect = card.getBoundingClientRect();
+          const nextCard = cards[index + 1];
+          let coverProgress = 0;
+
+          if (nextCard) {
+            const nextTop = stackBaseTop() + (index + 1) * step;
+            const overlapStart = top + card.offsetHeight + 12;
+            const overlapDistance = Math.max(overlapStart - nextTop, 1);
+            coverProgress = clamp(
+              (overlapStart - nextCard.getBoundingClientRect().top) / overlapDistance,
+              0,
+              1,
+            );
+          }
+
+          card.style.setProperty("--stack-top", `${top}px`);
+          card.style.setProperty("--stack-z", String(index + 1));
+          card.style.setProperty("--stack-shift", `${(-4 * coverProgress).toFixed(2)}px`);
+          card.style.setProperty("--stack-scale", (1 - 0.045 * coverProgress).toFixed(4));
+          card.classList.toggle(
+            "is-stack-pinned",
+            gridHasRoom && cardRect.top <= top + 1 && gridRect.bottom > top + card.offsetHeight,
+          );
+          card.classList.toggle("is-stack-covered", Boolean(nextCard) && coverProgress > 0.06);
+        });
+      });
+    };
+
+    const scheduleStackUpdate = () => {
+      if (!isActive || animationFrame) return;
+      animationFrame = window.requestAnimationFrame(updateStack);
+    };
+
+    const refreshStackMode = () => {
+      const shouldActivate = mobileViewport.matches && !reduceMotion.matches;
+      if (!shouldActivate) {
+        isActive = false;
+        clearStack();
+        return;
+      }
+
+      isActive = false;
+      clearStack();
+      let activeStackCount = 0;
+      stacks.forEach(({ grid, cards }) => {
+        const usableHeight = window.innerHeight - stackBaseTop() - 48;
+        if (cards.some((card) => card.offsetHeight > usableHeight)) return;
+
+        const step = stackStep(cards.length);
+        grid.classList.add("has-mobile-stack");
+        cards.forEach((card, index) => {
+          card.style.setProperty("--stack-top", `${stackBaseTop() + index * step}px`);
+          card.style.setProperty("--stack-z", String(index + 1));
+        });
+        activeStackCount += 1;
+      });
+      isActive = activeStackCount > 0;
+      scheduleStackUpdate();
+    };
+
+    window.addEventListener("scroll", scheduleStackUpdate, { passive: true });
+    window.addEventListener("resize", refreshStackMode, { passive: true });
+    mobileViewport.addEventListener?.("change", refreshStackMode);
+    reduceMotion.addEventListener?.("change", refreshStackMode);
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) scheduleStackUpdate();
+    });
+    refreshStackMode();
+  }
+
   function setupPipeline() {
     const buttons = [...document.querySelectorAll("[data-pipeline-step]")];
     const detail = document.querySelector("[data-pipeline-detail]");
@@ -471,6 +589,7 @@
   setupReveal();
   setupCounters();
   setupBentoMotion();
+  setupMobileBentoStack();
   setupPipeline();
   setupDetectorFilters();
   setupArchitectureSwitch();
