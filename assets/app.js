@@ -58,11 +58,11 @@
               <img src="assets/brand/banana-navy-logo.png" alt="Banana Navy">
               <span class="brand-copy"><strong>Document Trust</strong><span>Engineering partner · <i class="mozzeno-word">mozzeno</i></span></span>
             </a>
-            <nav class="site-nav" id="primary-navigation" aria-label="Navigation principale">${navLinks}</nav>
-            <a class="button button-primary header-cta" href="demo.html">Ouvrir la console</a>
             <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Ouvrir le menu">
               <span></span><span></span><span></span>
             </button>
+            <nav class="site-nav" id="primary-navigation" aria-label="Navigation principale">${navLinks}</nav>
+            <a class="button button-primary header-cta" href="demo.html">Ouvrir la console</a>
           </div>
         </header>`;
     }
@@ -139,6 +139,20 @@
         close();
         button.focus();
       }
+    });
+    document.addEventListener("pointerdown", (event) => {
+      if (
+        nav.classList.contains("is-open") &&
+        event.target instanceof Node &&
+        !nav.contains(event.target) &&
+        !button.contains(event.target)
+      ) {
+        close();
+      }
+    });
+    const desktopNavigation = window.matchMedia("(min-width: 1201px)");
+    desktopNavigation.addEventListener?.("change", (event) => {
+      if (event.matches) close();
     });
   }
 
@@ -436,12 +450,15 @@
     if (!link) return;
     const localHost = ["127.0.0.1", "localhost"].includes(window.location.hostname);
     if (localHost) {
-      link.href = "http://127.0.0.1:8000/app/";
+      link.disabled = false;
       link.textContent = "Ouvrir la console réelle";
       link.removeAttribute("aria-disabled");
+      link.addEventListener("click", () => {
+        window.location.href = "http://127.0.0.1:8000/app/";
+      });
       if (state) state.textContent = "FastAPI local · port 8000";
     } else {
-      link.removeAttribute("href");
+      link.disabled = true;
       link.setAttribute("aria-disabled", "true");
       link.classList.add("is-disabled");
       if (state) state.textContent = "Backend privé non publié";
