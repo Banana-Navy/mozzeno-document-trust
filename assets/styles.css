@@ -3960,6 +3960,10 @@ body[data-page="home"] .hero-copy h1 {
     font-size: clamp(2.9rem, 14vw, 4.7rem);
   }
 
+  body[data-page="home"] .hero-copy h1 {
+    font-size: clamp(2.75rem, 9.5vw, 4.25rem);
+  }
+
   .trust-console {
     min-height: 0;
     border-radius: 22px;
