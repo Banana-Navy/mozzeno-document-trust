@@ -1,7 +1,7 @@
 # Showcase Mozzeno Document Trust
 
 Microsite statique multipage destiné à expliquer le fonctionnement, les choix
-techniques, la sécurité et la roadmap du vertical slice M1. Il est distinct de
+techniques, la sécurité et la roadmap du vertical slice M1.1. Il est distinct de
 l'interface analyste présente dans `frontend/`.
 
 ## Démarrage local
@@ -15,16 +15,17 @@ python3 -m http.server 4173 --directory showcase
 Ouvrir `http://127.0.0.1:4173/`.
 
 Le site n'a aucune dépendance runtime, aucun CDN, aucun analytics, aucun cookie et
-aucune zone d'upload. La démonstration utilise uniquement des scénarios codés en dur
-et entièrement synthétiques.
+aucune zone d'upload. Il ne fabrique plus de rapports simulés : la page Console renvoie
+vers le véritable frontend FastAPI/React lorsqu'elle est ouverte localement et reste
+désactivée sur GitHub Pages tant qu'aucune application privée n'est déployée.
 
 ## Pages
 
-- `index.html` : synthèse et preuves du M1;
+- `index.html` : synthèse et preuves du M1.1;
 - `fonctionnement.html` : pipeline interactif en huit étapes;
 - `detecteurs.html` : détecteurs, indicateurs et policy;
-- `demo.html` : simulation synthétique de cinq scénarios;
-- `architecture.html` : M1/cible, choix techniques, bases et multi-agents;
+- `demo.html` : frontière et accès local à la console d'analyse réelle;
+- `architecture.html` : M1.1/cible, choix techniques, bases et multi-agents;
 - `securite.html` : frontières, menaces et contrôles;
 - `gouvernance.html` : data readiness, références et cycle de vie;
 - `roadmap.html` : jalons, décisions et FAQ.
@@ -66,9 +67,9 @@ par GitHub Actions vers `https://banana-navy.github.io/mozzeno-document-trust/`.
 
 ## Garde-fous éditoriaux
 
-- toujours distinguer `LIVRÉ M1`, `CIBLE PRODUCTION` et `GATE`;
+- toujours distinguer `LIVRÉ M1/M1.1`, `CIBLE PRODUCTION` et `GATE`;
 - ne jamais présenter `NORMAL` comme une preuve d'authenticité;
-- ne jamais présenter la simulation comme un benchmark réel;
+- ne jamais présenter une illustration ou la page statique comme une analyse réelle;
 - ne pas ajouter de vrai formulaire d'upload à ce microsite;
 - maintenir les animations compatibles avec `prefers-reduced-motion`;
 - ne pas ajouter de dépendance, police ou asset externe sans revue préalable.

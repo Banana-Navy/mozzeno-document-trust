@@ -20,10 +20,10 @@
       <section class="subhero">
         <div class="shell">
           <nav class="breadcrumb" aria-label="Fil d’Ariane"><a href="index.html">Accueil</a><span>›</span><span>Roadmap</span></nav>
-          <p class="eyebrow" style="margin-top:28px">Du M1 à une capacité exploitable</p>
+          <p class="eyebrow" style="margin-top:28px">Du M1.1 à une capacité exploitable</p>
           <h1>Valider chaque risque avant d’augmenter la <span class="accent">portée.</span></h1>
-          <p class="lead">Le moteur local prouve le parcours et les contrats. La prochaine valeur vient du durcissement, puis des détecteurs avancés synthétiques, avant toute expérimentation privée.</p>
-          <div class="status-pills"><span class="pill pill-delivered">M0 terminé</span><span class="pill pill-delivered">M1 validé localement</span><span class="pill pill-gate">M4/M5 bloqués</span></div>
+          <p class="lead">Le moteur local prouve le parcours PDF et raster ainsi que les contrats. La prochaine valeur vient du durcissement, puis des détecteurs avancés synthétiques, avant toute expérimentation privée.</p>
+          <div class="status-pills"><span class="pill pill-delivered">M0 terminé</span><span class="pill pill-delivered">M1.1 validé localement</span><span class="pill pill-gate">M4/M5 bloqués</span></div>
         </div>
       </section>
 
@@ -35,7 +35,7 @@
           </div>
           <div class="timeline">
             <article class="milestone done" data-reveal><b>M0</b><div><h3>Gouvernance et contrats</h3><p>Architecture, décisions, threat model, data readiness, clean room, licences et schémas de résultat.</p></div><span class="pill pill-delivered">Terminé</span></article>
-            <article class="milestone done" data-reveal><b>M1</b><div><h3>Vertical slice synthétique</h3><p>Upload, octets originaux, SHA-256, analyse locale, policy, interface, feedback, fixtures et tests.</p></div><span class="pill pill-delivered">Validé localement</span></article>
+            <article class="milestone done" data-reveal><b>M1.1</b><div><h3>Vertical slice PDF + raster synthétique</h3><p>Upload de cinq formats, octets originaux, rehash SHA-256, contrôles PDF/image, policy fail-safe, interface, feedback, onze fixtures et tests.</p></div><span class="pill pill-delivered">Validé localement</span></article>
             <article class="milestone" data-reveal><b>M2</b><div><h3>Durcissement de l’intake et des workers</h3><p>OIDC, object store, queue durable, sandbox sans egress, antivirus, DLQ, audit WORM et restauration.</p></div><span class="pill pill-target">Prochaine phase</span></article>
             <article class="milestone" data-reveal><b>M3</b><div><h3>Détecteurs avancés synthétiques</h3><p>Polices locales, montants, collage, CV, fingerprints de layout, near-duplicates et benchmark gelé.</p></div><span class="pill pill-target">Après M2</span></article>
             <article class="milestone" data-reveal><b>M4</b><div><h3>Readiness privée</h3><p>Profiling agrégé in situ, provenance, labels, DPIA, manifest et validations écrites.</p></div><span class="pill pill-gate">Bloqué</span></article>
@@ -99,10 +99,11 @@
             <h2>Les réponses importantes, sans raccourci.</h2>
           </div>
           <div class="faq-list" data-reveal>
-            <details><summary>Le M1 détecte-t-il déjà un montant remplacé ?</summary><p>Non. Une fixture synthétique et son masque existent pour préparer ce workstream, mais le détecteur de manipulation locale relève de M3. Le site l’étiquette explicitement comme cible.</p></details>
+            <details><summary>Le M1.1 détecte-t-il déjà un montant remplacé ?</summary><p>Non. Une fixture synthétique et son masque existent pour préparer ce workstream, mais le détecteur de manipulation locale relève de M3. Le site l’étiquette explicitement comme cible.</p></details>
+            <details><summary>Le M1.1 authentifie-t-il une capture d’écran ?</summary><p>Non. Il vérifie que l’image est décodable, expose des faits techniques bornés et produit un aperçu, mais les pixels ne prouvent ni la source ni une absence de retouche. Toute entrée raster reste INCONCLUSIVE avec REQUEST_NEW_ORIGINAL.</p></details>
             <details><summary>Une signature valide rend-elle le document authentique ?</summary><p>Non. Elle peut prouver l’intégrité des octets couverts et l’identité cryptographique sous certaines conditions. La confiance de la chaîne, la révocation, l’eIDAS et la vérité métier restent distinctes.</p></details>
             <details><summary>Pourquoi ne pas entraîner immédiatement sur l’historique Mozzeno ?</summary><p>Parce que la disponibilité technique ne constitue pas une base juridique ni une compatibilité de finalité. Provenance, labels, DPIA, rétention, suppression et validations écrites doivent précéder l’accès.</p></details>
-            <details><summary>Faut-il une base vectorielle ?</summary><p>Pas pour le M1. SHA-256 suffit au doublon exact. Un index vectoriel devient utile pour le near-duplicate et les templates seulement après gouvernance, calibration et définition de la suppression.</p></details>
+            <details><summary>Faut-il une base vectorielle ?</summary><p>Pas pour le M1.1. SHA-256 suffit au doublon exact. Un index vectoriel devient utile pour le near-duplicate et les templates seulement après gouvernance, calibration et définition de la suppression.</p></details>
             <details><summary>Un système multi-agents améliorerait-il le moteur ?</summary><p>Pas pour produire les preuves de base : des détecteurs déterministes sont plus reproductibles. Une architecture hybride peut ensuite faire résumer et critiquer le rapport localement, sans autoriser les agents à inventer un signal ou modifier le verdict.</p></details>
             <details><summary>Quand pourra-t-on utiliser de vrais documents ?</summary><p>Après clôture écrite des gates DATA-ACCESS et SECURITY-PROD correspondant à l’usage précis. Une autorisation limitée au profiling ne vaut pas autorisation d’entraînement ou de production.</p></details>
           </div>

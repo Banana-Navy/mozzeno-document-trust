@@ -444,6 +444,13 @@ p {
   box-shadow: var(--shadow-sm);
 }
 
+.button.is-disabled,
+.button[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.56;
+  pointer-events: none;
+}
+
 .button-primary {
   background: var(--navy);
   color: white;
@@ -521,6 +528,10 @@ p {
   font-weight: 790;
   letter-spacing: -0.055em;
   line-height: 1.01;
+}
+
+.hero-copy {
+  min-width: 0;
 }
 
 .subhero h1 {
@@ -835,6 +846,7 @@ p {
 .separation-heading {
   position: relative;
   z-index: 1;
+  min-width: 0;
   max-width: 860px;
   gap: 14px;
   margin-bottom: var(--section-content-space);
@@ -4325,6 +4337,32 @@ p {
 }
 
 @media (max-width: 360px) {
+  .brand-copy {
+    display: none;
+  }
+
+  .hero-copy h1,
+  .subhero h1,
+  .separation-heading h2,
+  .section-head h2,
+  .eyebrow,
+  .footer-title,
+  .footer-brand h2,
+  .footer-brand p {
+    overflow-wrap: anywhere;
+  }
+
+  .footer-grid,
+  .footer-brand {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .footer-grid > *,
+  .footer-brand > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+
   .decision-map {
     padding: 8px;
   }
@@ -4335,6 +4373,7 @@ p {
   }
 
   .fact-visual.visual-kit-slice {
+    max-width: 100%;
     width: 238px;
     height: 202px;
     background-position: -20px -238px;
@@ -4342,11 +4381,13 @@ p {
   }
 
   .signal-visual {
+    max-width: 100%;
     width: 229px;
     height: 229px;
   }
 
   .signal-signature {
+    max-width: 100%;
     width: 229px;
     height: 85px;
     background-position: -260px -158px;
@@ -4354,6 +4395,7 @@ p {
   }
 
   .signal-inspection {
+    max-width: 100%;
     width: 202px;
     height: 144px;
     margin-top: -2px;
@@ -4362,6 +4404,7 @@ p {
   }
 
   .signal-qualifiers {
+    max-width: 100%;
     width: 250px;
     height: 39px;
     background-position: -168px -397px;
@@ -4369,6 +4412,7 @@ p {
   }
 
   .human-review-visual.visual-kit-slice {
+    max-width: 100%;
     width: 247px;
     height: 78px;
     background-position: -414px -126px;
@@ -4376,6 +4420,7 @@ p {
   }
 
   .review-options {
+    max-width: 100%;
     width: 249px;
     height: 43px;
     background-position: -597px -357px;
@@ -4383,6 +4428,7 @@ p {
   }
 
   .human-rule {
+    max-width: 100%;
     width: 248px;
     min-height: 48px;
     background-position: -539px -388px;

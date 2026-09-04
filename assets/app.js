@@ -7,7 +7,7 @@
     ["home", "index.html", "Accueil"],
     ["fonctionnement", "fonctionnement.html", "Fonctionnement"],
     ["detecteurs", "detecteurs.html", "Détecteurs"],
-    ["demo", "demo.html", "Démo"],
+    ["demo", "demo.html", "Console"],
     ["architecture", "architecture.html", "Architecture"],
     ["securite", "securite.html", "Sécurité"],
     ["gouvernance", "gouvernance.html", "Gouvernance"],
@@ -59,7 +59,7 @@
               <span class="brand-copy"><strong>Document Trust</strong><span>Engineering partner · <i class="mozzeno-word">mozzeno</i></span></span>
             </a>
             <nav class="site-nav" id="primary-navigation" aria-label="Navigation principale">${navLinks}</nav>
-            <a class="button button-primary header-cta" href="demo.html">Voir la démo</a>
+            <a class="button button-primary header-cta" href="demo.html">Ouvrir la console</a>
             <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Ouvrir le menu">
               <span></span><span></span><span></span>
             </button>
@@ -106,7 +106,7 @@
             </div>
           </div>
           <div class="shell legal-line">
-            <span>© 2026 Banana Navy · démonstrateur technique pour Mozzeno</span>
+            <span>© 2026 Banana Navy · présentation technique pour Mozzeno</span>
             <span>Données synthétiques · revue humaine obligatoire · aucune décision de crédit</span>
             <span class="legal-links"><a href="securite.html">Sécurité</a><a href="gouvernance.html">Gouvernance</a><a href="roadmap.html">Limites</a></span>
           </div>
@@ -430,146 +430,22 @@
     });
   }
 
-  const demoScenarios = {
-    native: {
-      title: "PDF natif simple",
-      verdict: "NORMAL",
-      verdictClass: "",
-      fact: "PDF valide, contenu textuel natif, original conservé et SHA-256 calculé.",
-      signal: "Aucune anomalie significative détectée par les contrôles M1 exécutés.",
-      policy: "NO_ACTION dans le moteur forensique. NORMAL n’est pas une preuve d’authenticité.",
-      analyst: "Le dossier suit le processus normal, sans décision automatique de crédit.",
-      box: false,
-    },
-    image: {
-      title: "PDF reconstitué depuis une image",
-      verdict: "INCONCLUSIVE",
-      verdictClass: "inconclusive",
-      fact: "La page est constituée d’une image sans structure textuelle native suffisante.",
-      signal: "Origine IMAGE_ONLY_PDF : certains contrôles structurels ne peuvent pas conclure.",
-      policy: "REQUEST_NEW_ORIGINAL : l’information disponible est insuffisante.",
-      analyst: "Demander le fichier original ou effectuer une revue documentaire significative.",
-      box: false,
-    },
-    signature: {
-      title: "Révision après signature",
-      verdict: "WARNING",
-      verdictClass: "warning",
-      fact: "Des octets existent après la révision couverte par la signature numérique.",
-      signal: "signature.post_signature_revision.v1 · preuve forte, mais motif potentiellement légitime.",
-      policy: "MANUAL_REVIEW : une modification postérieure doit être comprise, pas accusée.",
-      analyst: "Comparer la révision et le contexte avant toute qualification de fraude.",
-      box: true,
-    },
-    duplicate: {
-      title: "Doublon binaire exact",
-      verdict: "WARNING",
-      verdictClass: "warning",
-      fact: "Le SHA-256 correspond exactement à une soumission antérieure finalisée.",
-      signal: "serial.exact_duplicate.v1 · identité binaire, sans interprétation de l’intention.",
-      policy: "MANUAL_REVIEW : la réutilisation peut être normale ou nécessiter une investigation.",
-      analyst: "Examiner le contexte des dossiers reliés et les droits d’accès avant comparaison.",
-      box: false,
-    },
-    pageLimit: {
-      title: "PDF hors quota de pages",
-      verdict: "INVALID_INPUT",
-      verdictClass: "invalid",
-      fact: "L’intake a accepté le type, la taille et l’en-tête, puis l’analyse a établi un nombre de pages hors de la plage autorisée de 1 à 10.",
-      signal: "pdf.page_limit.v1 · l’original est déjà conservé ; la limite est détectée pendant l’analyse structurelle.",
-      policy: "REJECT_INVALID_INPUT : rejet technique, jamais décision de crédit.",
-      analyst: "Demander un nouveau fichier valide. Ne pas interpréter le rejet comme une fraude.",
-      box: false,
-    },
-  };
-
-  function setupDemo() {
-    const buttons = [...document.querySelectorAll("[data-demo-scenario]")];
-    const runButtons = [...document.querySelectorAll("[data-demo-run]")];
-    const placeholder = document.querySelector("[data-demo-placeholder]");
-    const result = document.querySelector("[data-demo-result]");
-    const progressBar = document.querySelector("[data-demo-progress]");
-    const progress = [...document.querySelectorAll("[data-demo-progress] span")];
-    const box = document.querySelector("[data-demo-box]");
-    if (!buttons.length || !runButtons.length || !placeholder || !result || !progressBar || !box) return;
-    result.tabIndex = -1;
-
-    let selected = "native";
-    let timers = [];
-    const clearTimers = () => {
-      timers.forEach(window.clearTimeout);
-      timers = [];
-    };
-
-    const setScenario = (button) => {
-      selected = button.dataset.demoScenario || "native";
-      buttons.forEach((candidate) => candidate.setAttribute("aria-pressed", String(candidate === button)));
-      clearTimers();
-      progress.forEach((segment) => segment.classList.remove("is-complete"));
-      progressBar.setAttribute("aria-valuenow", "0");
-      result.hidden = true;
-      placeholder.hidden = false;
-      placeholder.classList.remove("is-running");
-      placeholder.querySelector("p").textContent = "Scénario prêt. Lancez l’analyse synthétique.";
-      box.hidden = true;
-      runButtons.forEach((runButton) => {
-        runButton.disabled = false;
-      });
-    };
-
-    buttons.forEach((button) => button.addEventListener("click", () => setScenario(button)));
-
-    const run = () => {
-      clearTimers();
-      const scenario = demoScenarios[selected];
-      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      progress.forEach((segment) => segment.classList.remove("is-complete"));
-      progressBar.setAttribute("aria-valuenow", "0");
-      result.hidden = true;
-      placeholder.hidden = false;
-      placeholder.classList.add("is-running");
-      placeholder.querySelector("p").textContent = "Analyse locale des contrôles déterministes…";
-      box.hidden = true;
-      runButtons.forEach((button) => { button.disabled = true; });
-
-      const finish = () => {
-        result.querySelector("[data-result-title]").textContent = scenario.title;
-        const badge = result.querySelector("[data-result-verdict]");
-        badge.textContent = scenario.verdict;
-        badge.className = `verdict-badge ${scenario.verdictClass}`.trim();
-        result.querySelector("[data-result-fact]").textContent = scenario.fact;
-        result.querySelector("[data-result-signal]").textContent = scenario.signal;
-        result.querySelector("[data-result-policy]").textContent = scenario.policy;
-        result.querySelector("[data-result-analyst]").textContent = scenario.analyst;
-        box.hidden = !scenario.box;
-        progressBar.setAttribute("aria-valuenow", String(progress.length));
-        placeholder.hidden = true;
-        placeholder.classList.remove("is-running");
-        result.hidden = false;
-        runButtons.forEach((button) => { button.disabled = false; });
-        result.focus();
-      };
-
-      if (reduceMotion) {
-        progress.forEach((segment) => segment.classList.add("is-complete"));
-        finish();
-        return;
-      }
-
-      progress.forEach((segment, index) => {
-        timers.push(
-          window.setTimeout(() => {
-            segment.classList.add("is-complete");
-            progressBar.setAttribute("aria-valuenow", String(index + 1));
-          }, 280 + index * 420),
-        );
-      });
-      timers.push(window.setTimeout(finish, 2600));
-    };
-
-    runButtons.forEach((button) => button.addEventListener("click", run));
-
-    setScenario(buttons[0]);
+  function setupRealConsoleLink() {
+    const link = document.querySelector("[data-real-console-link]");
+    const state = document.querySelector("[data-console-state]");
+    if (!link) return;
+    const localHost = ["127.0.0.1", "localhost"].includes(window.location.hostname);
+    if (localHost) {
+      link.href = "http://127.0.0.1:8000/app/";
+      link.textContent = "Ouvrir la console réelle";
+      link.removeAttribute("aria-disabled");
+      if (state) state.textContent = "FastAPI local · port 8000";
+    } else {
+      link.removeAttribute("href");
+      link.setAttribute("aria-disabled", "true");
+      link.classList.add("is-disabled");
+      if (state) state.textContent = "Backend privé non publié";
+    }
   }
 
   renderChrome();
@@ -581,5 +457,5 @@
   setupPipeline();
   setupDetectorFilters();
   setupArchitectureSwitch();
-  setupDemo();
+  setupRealConsoleLink();
 })();

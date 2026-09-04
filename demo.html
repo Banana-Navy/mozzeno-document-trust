@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; connect-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'">
-    <meta name="description" content="Démonstration interactive et exclusivement synthétique de Mozzeno Document Trust.">
+    <meta name="description" content="Accès à la console d’analyse réelle locale de Mozzeno Document Trust.">
     <meta name="theme-color" content="#222b54">
-    <title>Démo synthétique · Mozzeno Document Trust</title>
+    <title>Console d’analyse · Mozzeno Document Trust</title>
     <link rel="icon" href="assets/brand/banana-navy-logo.png" type="image/png">
     <link rel="stylesheet" href="assets/styles.css">
     <script defer src="assets/app.js"></script>
@@ -14,65 +14,53 @@
   <body data-page="demo">
     <a class="skip-link" href="#contenu">Aller au contenu</a>
     <div data-site-header></div>
-    <noscript><div class="noscript-note">La simulation interactive nécessite JavaScript. Aucun fichier réel n’est accepté sur cette page.</div></noscript>
+    <noscript><div class="noscript-note">La console d’analyse locale est servie par FastAPI sous <code>http://127.0.0.1:8000/app/</code>. Aucun moteur documentaire n’est hébergé sur GitHub Pages.</div></noscript>
 
     <main id="contenu">
       <section class="subhero">
         <div class="shell">
-          <nav class="breadcrumb" aria-label="Fil d’Ariane"><a href="index.html">Accueil</a><span>›</span><span>Démo synthétique</span></nav>
-          <p class="eyebrow" style="margin-top:28px">Expérience guidée</p>
-          <h1>Choisir un scénario. Voir le raisonnement <span class="accent">complet.</span></h1>
-          <p class="lead">Cette page rejoue cinq sorties représentatives du moteur avec des données fictives. Elle ne contient aucune zone d’upload et ne contacte aucune API.</p>
-          <div class="status-pills"><span class="pill pill-delivered">Simulation locale</span><span class="pill pill-delivered">Zéro donnée réelle</span><span class="pill pill-warning">Pas une preuve de performance</span></div>
+          <nav class="breadcrumb" aria-label="Fil d’Ariane"><a href="index.html">Accueil</a><span>›</span><span>Console d’analyse</span></nav>
+          <p class="eyebrow" style="margin-top:28px">Moteur réel · environnement local</p>
+          <h1>Les résultats préfabriqués sont <span class="accent">retirés.</span></h1>
+          <p class="lead">Cette page ne simule plus aucun verdict. La vraie console appelle FastAPI, conserve les octets, exécute les détecteurs et produit un rapport versionné. Elle reste limitée aux fixtures synthétiques tant que les approbations de production requises ne sont pas signées.</p>
+          <div class="status-pills"><span class="pill pill-delivered">Analyse réellement exécutée</span><span class="pill pill-delivered">PDF + images</span><span class="pill pill-warning">Données synthétiques uniquement</span></div>
         </div>
       </section>
 
       <section class="section">
         <div class="shell">
           <div class="section-head" data-reveal>
-            <p class="eyebrow">1 · Sélectionner un cas</p>
-            <h2>Le même pipeline, des conclusions différentes.</h2>
-            <p>Les scénarios reflètent le contrat et la policy M1. Ils expliquent le comportement&nbsp;; ils ne remplacent pas l’application analyste réelle.</p>
-          </div>
-          <div class="demo-scenarios" role="group" aria-label="Scénarios synthétiques" data-reveal>
-            <button class="scenario-button" type="button" aria-pressed="true" data-demo-scenario="native">PDF natif</button>
-            <button class="scenario-button" type="button" aria-pressed="false" data-demo-scenario="image">Page-image</button>
-            <button class="scenario-button" type="button" aria-pressed="false" data-demo-scenario="signature">Après signature</button>
-            <button class="scenario-button" type="button" aria-pressed="false" data-demo-scenario="duplicate">Doublon exact</button>
-            <button class="scenario-button" type="button" aria-pressed="false" data-demo-scenario="pageLimit">Pages hors quota</button>
+            <p class="eyebrow">1 · Ouvrir le laboratoire</p>
+            <h2>Une vraie exécution, pas une animation.</h2>
+            <p>Le bouton ouvre l’application locale lorsque cette présentation est consultée sur la machine de développement. Sur le site public, il reste désactivé jusqu’au déploiement d’une application privée authentifiée.</p>
           </div>
 
           <div class="demo-console" data-reveal>
-            <div class="demo-topbar"><strong>Document Trust · Synthetic Lab</strong><span>Aucun upload · aucun réseau · aucun contenu client</span></div>
+            <div class="demo-topbar"><strong>Document Trust · Analyst Console</strong><span data-console-state>Moteur local à démarrer</span></div>
             <div class="demo-grid">
               <div class="demo-document">
-                <div class="paper" role="img" aria-label="Document de test entièrement fictif avec zone illustrative optionnelle.">
+                <div class="paper" role="img" aria-label="Chaîne technique de l’analyse locale réelle.">
                   <div class="paper-head"><span class="paper-logo"></span><span class="paper-stamp"></span></div>
                   <div class="paper-line dark"></div><div class="paper-line medium"></div><div class="paper-line short"></div>
                   <div class="paper-table">
-                    <div class="paper-row"><span class="paper-line"></span><span class="paper-line dark"></span></div>
-                    <div class="paper-row"><span class="paper-line"></span><span class="paper-line dark"></span></div>
-                    <div class="paper-row"><span class="paper-line"></span><span class="paper-line dark"></span></div>
-                    <div class="paper-row"><span class="paper-line"></span><span class="paper-line dark"></span></div>
+                    <div class="paper-row"><span>01 · Original</span><strong>SHA-256</strong></div>
+                    <div class="paper-row"><span>02 · Intake</span><strong>MIME + magic</strong></div>
+                    <div class="paper-row"><span>03 · Détecteurs</span><strong>faits versionnés</strong></div>
+                    <div class="paper-row"><span>04 · Policy</span><strong>déterministe</strong></div>
+                    <div class="paper-row"><span>05 · Analyste</span><strong>décide</strong></div>
                   </div>
-                  <div class="bounding-box" data-demo-box hidden aria-hidden="true"></div>
                 </div>
               </div>
               <div class="demo-report">
-                <div class="analysis-progress" data-demo-progress role="progressbar" aria-label="Progression simulée" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0"><span></span><span></span><span></span><span></span><span></span></div>
-                <div class="report-placeholder" data-demo-placeholder>
-                  <div><div class="scan-ring" aria-hidden="true"></div><p>Scénario prêt. Lancez l’analyse synthétique.</p><button class="button button-primary" type="button" data-demo-run>Analyser ce scénario</button></div>
-                </div>
-                <article class="report-result" data-demo-result hidden aria-live="polite">
-                  <div class="verdict-row"><div><p class="eyebrow">Rapport simulé</p><h2 data-result-title>PDF natif simple</h2></div><span class="verdict-badge" data-result-verdict>NORMAL</span></div>
+                <article class="report-result" style="display:block" aria-live="polite">
+                  <div class="verdict-row"><div><p class="eyebrow">Accès contrôlé</p><h2>Console analyste réelle</h2></div><span class="verdict-badge inconclusive">LOCAL</span></div>
                   <div class="report-layers">
-                    <div class="report-layer"><b>1 · Fait observé</b><p data-result-fact></p></div>
-                    <div class="report-layer"><b>2 · Signal forensique</b><p data-result-signal></p></div>
-                    <div class="report-layer"><b>3 · Inférence de policy</b><p data-result-policy></p></div>
-                    <div class="report-layer"><b>4 · Intervention humaine</b><p data-result-analyst></p></div>
+                    <div class="report-layer"><b>1 · Démarrer</b><p><code>uv run uvicorn mozzeno_fraud.main:app --port 8000</code></p></div>
+                    <div class="report-layer"><b>2 · Tester</b><p>Utiliser uniquement les onze fixtures générées dans <code>tests/fixtures/generated/</code>.</p></div>
+                    <div class="report-layer"><b>3 · Lire</b><p>Le rapport sépare faits, signaux, policy, limites et intervention humaine.</p></div>
                   </div>
-                  <div class="demo-disclaimer">Cette sortie est une représentation pédagogique. Le rapport réel contient identifiants, versions, faits détaillés, limites et reason codes structurés.</div>
-                  <button class="button button-ghost" style="margin-top:20px" type="button" data-demo-run>Rejouer l’analyse</button>
+                  <div class="demo-disclaimer">GitHub Pages ne peut pas exécuter FastAPI. Aucun document n’est envoyé depuis cette présentation statique.</div>
+                  <a class="button button-primary" style="margin-top:20px" data-real-console-link aria-disabled="true">Console privée non déployée</a>
                 </article>
               </div>
             </div>
@@ -83,16 +71,16 @@
       <section class="section surface-section">
         <div class="shell">
           <div class="section-head" data-reveal>
-            <p class="eyebrow">2 · Lire le résultat correctement</p>
-            <h2>La couleur ne suffit jamais.</h2>
-            <p>Chaque état combine un mot, une action, une explication et une limite. Le vert menthe de l’interface indique un flux actif ou une étape terminée&nbsp;; il ne signifie jamais “document authentique”.</p>
+            <p class="eyebrow">2 · Ce que le moteur vérifie vraiment</p>
+            <h2>Cinq couches, cinq niveaux de preuve.</h2>
+            <p>Le produit ne résume pas l’authenticité à un score. Il expose ce qui est observé, ce qui manque et l’action sûre.</p>
           </div>
           <div class="bento-grid">
-            <article class="bento" data-reveal><span class="card-icon">N</span><h3>NORMAL</h3><p>Aucune anomalie matérielle détectée. Ce n’est ni une validation officielle, ni une garantie d’authenticité.</p></article>
-            <article class="bento" data-reveal><span class="card-icon">W</span><h3>WARNING</h3><p>Un signal matériel nécessite du contexte. La revue humaine est obligatoire dans la phase initiale.</p></article>
-            <article class="bento purple" data-reveal><span class="card-icon">?</span><h3>INCONCLUSIVE</h3><p>Qualité ou information insuffisante. Le bon comportement est l’abstention ou la demande d’un original.</p></article>
-            <article class="bento half navy" data-reveal><span class="card-icon">HR</span><h3>HIGH_RISK</h3><p>Réservé à plusieurs catégories indépendantes de preuves fortes. Même ici, le moteur demande une revue et ne refuse pas un crédit.</p></article>
-            <article class="bento half mint" data-reveal><span class="card-icon">X</span><h3>INVALID_INPUT</h3><p>Rejet technique d’un fichier impossible à analyser en sécurité. Ce statut ne qualifie pas l’intention du client.</p></article>
+            <article class="bento" data-reveal><span class="card-icon">#</span><h3>Identité du fichier</h3><p>Octets originaux conservés sans écrasement applicatif et SHA-256 revérifié avant analyse.</p></article>
+            <article class="bento" data-reveal><span class="card-icon">M</span><h3>Format observé</h3><p>Concordance du MIME déclaré avec les magic bytes PDF, PNG, JPEG, TIFF ou WebP.</p></article>
+            <article class="bento purple" data-reveal><span class="card-icon">S</span><h3>Structure et signature</h3><p>Structure PDF, révisions et intégrité CMS sont vérifiées localement avec leurs limites.</p></article>
+            <article class="bento half navy" data-reveal><span class="card-icon">R</span><h3>Capture raster</h3><p>Décodage, dimensions et présence de métadonnées sont observés. La provenance reste indisponible.</p></article>
+            <article class="bento half mint" data-reveal><span class="card-icon">H</span><h3>Décision humaine</h3><p>Une capture reçoit INCONCLUSIVE et REQUEST_NEW_ORIGINAL. Le moteur ne décide aucun crédit.</p></article>
           </div>
         </div>
       </section>
@@ -100,9 +88,9 @@
       <section class="section navy-section">
         <div class="shell" style="position:relative;z-index:1">
           <div class="section-head" data-reveal>
-            <p class="eyebrow">Du démonstrateur au produit</p>
-            <h2>La simulation explique. L’application réelle trace.</h2>
-            <p>L’interface analyste du dépôt réalise déjà le parcours création, upload synthétique, polling, aperçu PNG, rapport, export JSON et feedback. Son authentification actuelle reste strictement locale.</p>
+            <p class="eyebrow">Frontière de déploiement</p>
+            <h2>La présentation reste publique. Le moteur reste privé.</h2>
+            <p>Une version destinée à des documents clients exige OIDC, autorisation par dossier, workers de parsing isolés, stockage objet immuable, queue durable, antivirus, audit WORM et validations Security/DPO. Aucun de ces gates n’est contourné par cette page.</p>
           </div>
           <div class="hero-actions" data-reveal><a class="button button-mint" href="architecture.html">Comprendre l’architecture</a><a class="button button-ghost" href="securite.html">Voir les contrôles de sécurité</a></div>
         </div>

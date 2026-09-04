@@ -22,8 +22,8 @@
           <nav class="breadcrumb" aria-label="Fil d’Ariane"><a href="index.html">Accueil</a><span>›</span><span>Architecture</span></nav>
           <p class="eyebrow" style="margin-top:28px">Concevoir sans survendre</p>
           <h1>Un noyau simple aujourd’hui. Une cible <span class="accent">durcie</span> demain.</h1>
-          <p class="lead">Le M1 minimise les dépendances pour valider le contrat et les détecteurs. La production exige ensuite de séparer l’intake, les workers hostiles, le stockage, l’orchestration et l’audit.</p>
-          <div class="status-pills"><span class="pill pill-delivered">Architecture M1 exécutée</span><span class="pill pill-target">Cible production documentée</span><span class="pill pill-gate">Choix infra Mozzeno requis</span></div>
+          <p class="lead">Le M1.1 minimise les dépendances tout en exécutant deux chemins réels&nbsp;: PDF et image raster. La production exige ensuite de séparer l’intake, les workers hostiles, le stockage, l’orchestration et l’audit.</p>
+          <div class="status-pills"><span class="pill pill-delivered">Architecture M1.1 exécutée</span><span class="pill pill-target">Cible production documentée</span><span class="pill pill-gate">Choix infra Mozzeno requis</span></div>
         </div>
       </section>
 
@@ -35,7 +35,7 @@
             <p>La cible n’est pas présentée comme livrée. Elle formalise ce qu’il faut décider et tester avant d’ouvrir la plateforme à de vrais documents.</p>
           </div>
           <div class="view-switch" role="group" aria-label="Choisir l’architecture" data-reveal>
-            <button class="switch-button" type="button" aria-pressed="true" data-architecture-switch="current">M1 actuel</button>
+            <button class="switch-button" type="button" aria-pressed="true" data-architecture-switch="current">M1.1 actuel</button>
             <button class="switch-button" type="button" aria-pressed="false" data-architecture-switch="target">Production cible</button>
           </div>
           <div class="architecture-stage" data-reveal>
@@ -47,7 +47,7 @@
                 <article class="arch-node"><b>01</b><strong>React / Vite</strong><small>Interface analyste et preview PNG</small></article>
                 <article class="arch-node"><b>02</b><strong>FastAPI</strong><small>Contrats Pydantic et OpenAPI</small></article>
                 <article class="arch-node"><b>03</b><strong>asyncio</strong><small>Queue locale volatile et bornée</small></article>
-                <article class="arch-node"><b>04</b><strong>Détecteurs locaux</strong><small>pypdf · PDFium · pyHanko</small></article>
+                <article class="arch-node"><b>04</b><strong>Détecteurs locaux</strong><small>pypdf · PDFium · pyHanko · Pillow</small></article>
                 <article class="arch-node"><b>05</b><strong>SQLite + files</strong><small>Rapports et artefacts locaux</small></article>
               </div>
               <div class="callout warning" style="margin-top:34px;color:var(--navy)"><p><strong>Limite structurante :</strong> le parser tourne encore dans le processus applicatif et le filesystem n’est pas immuable au niveau infrastructure.</p></div>
@@ -79,12 +79,12 @@
           <table class="choice-table" data-reveal>
             <thead><tr><th>Choix</th><th>Pourquoi ici</th><th>Pourquoi pas davantage maintenant</th></tr></thead>
             <tbody>
-              <tr><td>Python 3.12 + FastAPI</td><td>Accès direct à l’écosystème PDF/CV/ML, API async, documentation OpenAPI et typage moderne.</td><td>Les calculs lourds devront quitter le processus API. Java ou Node ajouteraient une frontière avec la plupart des détecteurs Python sans valeur au M1.</td></tr>
+              <tr><td>Python 3.12 + FastAPI</td><td>Accès direct aux parseurs PDF et image, API async, documentation OpenAPI et typage moderne.</td><td>Les calculs lourds devront quitter le processus API. Java ou Node ajouteraient une frontière avec la plupart des détecteurs Python sans valeur au M1.1.</td></tr>
               <tr><td>Pydantic v2</td><td>Schémas stricts <code>extra="forbid"</code>, enums stables et validation des bounding boxes.</td><td>Un schéma permissif ferait dériver l’API et compliquerait l’audit des rapports.</td></tr>
               <tr><td>SQLAlchemy + Alembic</td><td>Transactions, migrations et portabilité du test SQLite vers PostgreSQL.</td><td>Un ORM ne remplace pas le design SQL, les contraintes, RLS ou les tests du dialecte de production.</td></tr>
               <tr><td>pypdf + PDFium</td><td>Deux vues séparées : structure logique d’un côté, rendu raster de l’autre.</td><td>Un parser unique crée un angle mort. Deux moteurs ne suffisent toutefois pas sans sandbox. PyMuPDF n’est pas retenu dans ce dépôt propriétaire en raison de sa distribution open source AGPL.</td></tr>
               <tr><td>pyHanko</td><td>Inspection CMS locale, intégrité cryptographique et couverture des révisions.</td><td>La confiance certificat, les révocations et Trusted Lists eIDAS exigent une infrastructure et une politique dédiées.</td></tr>
-              <tr><td>Pillow + ImageHash</td><td>Thumbnail reproductible et pHash léger pour une première empreinte visuelle.</td><td>Le pHash n’est ni une preuve de fraude ni un index de similarité calibré.</td></tr>
+              <tr><td>Pillow + ImageHash</td><td>Décodage raster borné, faits de format et dimensions, thumbnail reproductible et pHash léger.</td><td>Ni les métadonnées auto-déclarées ni le pHash ne prouvent la provenance, une retouche ou une fraude.</td></tr>
               <tr><td>React + Vite</td><td>Interface interne typée, bundle léger et aucun besoin de rendu serveur public.</td><td>Next.js/SSR ajouterait de la complexité sans bénéfice pour l’outil analyste local.</td></tr>
               <tr><td>Queue asyncio</td><td>Valide le contrat asynchrone sans ajouter une infrastructure non décidée.</td><td>Elle est volatile. Celery, Dramatiq, Temporal ou une queue cloud ne seront choisis qu’avec les contraintes d’exploitation Mozzeno.</td></tr>
               <tr><td>SHA-256</td><td>Intégrité et doublon exact déterministes, simples à auditer.</td><td>Une recompression ou une modification minime change le hash et exige d’autres empreintes.</td></tr>
@@ -98,12 +98,12 @@
           <div class="section-head" data-reveal>
             <p class="eyebrow">Bases de données et références</p>
             <h2>Séparer les usages pour limiter le risque.</h2>
-            <p>Un PDF, un rapport, un hash exact et un embedding n’ont ni le même format, ni la même rétention, ni la même sensibilité.</p>
+            <p>Un PDF ou raster original, un rapport, un hash exact et un embedding n’ont ni le même format, ni la même rétention, ni la même sensibilité.</p>
           </div>
           <div class="storage-grid">
             <article class="storage-card" data-reveal><b>OBJ</b><h3>Originaux &amp; dérivés</h3><p>Object store S3-compatible cible avec chiffrement, versioning et immutabilité. Jamais une base vectorielle.</p></article>
             <article class="storage-card" data-reveal><b>SQL</b><h3>Métadonnées &amp; rapports</h3><p>PostgreSQL cible pour transactions, états, policy, feedback et recherches structurées.</p></article>
-            <article class="storage-card" data-reveal><b>SHA</b><h3>Doublons exacts</h3><p>Index SHA-256 simple et déterministe. Il répond au besoin M1 sans moteur additionnel.</p></article>
+            <article class="storage-card" data-reveal><b>SHA</b><h3>Doublons exacts</h3><p>Index SHA-256 simple et déterministe. Il répond au besoin M1.1 sans moteur additionnel.</p></article>
             <article class="storage-card" data-reveal><b>VEC</b><h3>Similarité future</h3><p>Index séparé pour pHash, layout ou embeddings, éventuellement pgvector après gouvernance et calibration.</p></article>
           </div>
           <div class="comparison-grid" style="margin-top:22px">
@@ -118,7 +118,7 @@
           <div class="section-head" data-reveal>
             <p class="eyebrow">Systèmes multi-agents</p>
             <h2>Utiles pour expliquer. Pas pour inventer les preuves.</h2>
-            <p>Le cœur M1 reste déterministe. Une approche hybride future peut ajouter un assistant local, puis un agent critique, sans leur donner le droit de modifier les indicateurs, le verdict ou une décision crédit.</p>
+            <p>Le cœur M1.1 reste déterministe. Une approche hybride future peut ajouter un assistant local, puis un agent critique, sans leur donner le droit de modifier les indicateurs, le verdict ou une décision crédit.</p>
           </div>
           <div class="hybrid-flow" data-reveal>
             <article class="hybrid-node"><b>01 · Déterministe</b><h3>Routeur</h3><p>Choisit les pipelines selon le format et la qualité observés.</p></article>

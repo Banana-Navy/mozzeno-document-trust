@@ -20,12 +20,12 @@
       <section class="hero">
         <div class="shell hero-shell hero-grid">
           <div class="hero-copy" data-reveal>
-            <p class="eyebrow">Mozzeno Document Trust · M1</p>
+            <p class="eyebrow">Mozzeno Document Trust · M1.1</p>
             <h1>La fraude documentaire ne se résume pas à un <span class="accent">score.</span></h1>
-            <p>La plateforme transforme un PDF en faits techniques, signaux explicables et limites visibles. Elle ne conclut seule ni à l’authenticité ni à la fraude&nbsp;; l’analyste garde la maîtrise de la suite documentaire.</p>
+            <p>La plateforme transforme un PDF ou une image raster en faits techniques, signaux explicables et limites visibles. Elle ne conclut seule ni à l’authenticité ni à la fraude&nbsp;; l’analyste garde la maîtrise de la suite documentaire.</p>
             <div class="hero-actions">
               <a class="button button-primary" href="fonctionnement.html">Explorer le pipeline</a>
-              <a class="button button-ghost" href="demo.html">Lancer la démo synthétique</a>
+              <a class="button button-ghost" href="demo.html">Ouvrir la console d’analyse</a>
             </div>
             <div class="trust-line" role="list" aria-label="Principes du système">
               <span role="listitem">Aucun service documentaire externe</span>
@@ -39,7 +39,7 @@
             <div class="console-toolbar">
               <div class="local-processing">
                 <span class="console-icon"><svg aria-hidden="true"><use href="#i-database"></use></svg></span>
-                <span><strong>Analyse locale M1</strong><small>Aucun fichier transmis à un service tiers</small></span>
+                <span><strong>Analyse locale M1.1</strong><small>Aucun fichier transmis à un service tiers</small></span>
               </div>
               <div class="analysis-modes" role="list" aria-label="Axes d’analyse illustrés"><span role="listitem">Structure</span><span class="is-active" role="listitem">Signature</span><span role="listitem">Qualité</span></div>
               <span class="synthetic-chip">Illustration · scénario synthétique</span>
@@ -175,7 +175,7 @@
       <section class="section">
         <div class="shell">
           <div class="section-head" data-reveal>
-            <p class="eyebrow">Ce que le M1 fait réellement</p>
+            <p class="eyebrow">Ce que le M1.1 fait réellement</p>
             <h2>Une première couche forensique locale et explicable.</h2>
             <p>Le vertical slice couvre le parcours complet, de l’entrée contrôlée au feedback analyste, avec des détecteurs déterministes avant tout travail ML avancé.</p>
           </div>
@@ -188,7 +188,7 @@
             <article class="bento" data-reveal>
               <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><use href="#i-document"></use></svg></span>
               <h3>Lire la structure</h3>
-              <p>Métadonnées, producteurs, révisions, polices, images et classification natif/scan/image.</p>
+              <p>Pour un PDF&nbsp;: métadonnées, révisions, polices, images et classification natif/scan. Pour un raster&nbsp;: format décodé, dimensions, frames, alpha et présence bornée de métadonnées.</p>
             </article>
             <article class="bento" data-reveal>
               <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><use href="#i-lock"></use></svg></span>
@@ -207,8 +207,8 @@
             </article>
             <article class="bento half" data-reveal>
               <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><use href="#i-document"></use></svg></span>
-              <h3>Prévisualiser sans activer le PDF</h3>
-              <p>L’interface analyste charge une miniature PNG rasterisée. Elle n’intègre jamais le document PDF original comme contenu actif.</p>
+              <h3>Prévisualiser sans activer le fichier</h3>
+              <p>L’interface charge une miniature PNG dérivée du PDF ou de l’image. Une entrée raster reste INCONCLUSIVE et entraîne une demande d’original&nbsp;: ses pixels ne suffisent pas à établir sa provenance.</p>
             </article>
           </div>
         </div>
@@ -218,17 +218,17 @@
         <div class="shell">
           <div class="section-head centered" data-reveal>
             <p class="eyebrow">Preuves du snapshot local</p>
-            <h2>Un M1 mesuré, sans promesse commerciale.</h2>
-            <p>Résultats enregistrés le 1er septembre 2026. Le benchmark est mono-processus et ne valide pas un SLO de production.</p>
+            <h2>Un M1.1 mesuré, sans promesse commerciale.</h2>
+            <p>Résultats enregistrés le 4 septembre 2026. Ces validations locales ne constituent ni un benchmark de production ni une mesure d’authenticité.</p>
           </div>
           <div class="metric-grid" data-reveal>
-            <div class="metric"><strong data-count="34">34</strong><span>tests backend</span></div>
-            <div class="metric"><strong data-count="3">3</strong><span>tests frontend</span></div>
-            <div class="metric"><strong data-count="83" data-suffix="%">83%</strong><span>couverture</span></div>
-            <div class="metric"><strong data-count="10">10</strong><span>PDF synthétiques</span></div>
-            <div class="metric"><strong data-count="0.06" data-decimals="2" data-suffix=" s">0,06 s</strong><span>p95 API locale</span></div>
+            <div class="metric"><strong data-count="39">39</strong><span>tests backend</span></div>
+            <div class="metric"><strong data-count="10">10</strong><span>tests frontend</span></div>
+            <div class="metric"><strong data-count="5">5</strong><span>types MIME admis</span></div>
+            <div class="metric"><strong data-count="11">11</strong><span>fixtures synthétiques</span></div>
+            <div class="metric"><strong data-count="0">0</strong><span>upload sur le site public</span></div>
           </div>
-          <p class="metric-note">Python 3.12 · TestClient · SQLite · filesystem local · PDF synthétique de 10 pages · 20 exécutions.</p>
+          <p class="metric-note">PDF, PNG, JPEG, TIFF et WebP · 10 fixtures PDF + 1 PNG · SQLite et filesystem locaux · aucune donnée client.</p>
         </div>
       </section>
 
@@ -237,7 +237,7 @@
           <div class="section-head" data-reveal>
             <p class="eyebrow">Ce que la plateforme ne prétend pas</p>
             <h2>Pas de magie. Pas de certification automatique.</h2>
-            <p>Une inspection réussie ne prouve pas l’authenticité administrative. Une signature absente n’est pas suspecte. Un verdict NORMAL signifie seulement qu’aucune anomalie significative n’a été détectée par les contrôles exécutés.</p>
+            <p>Une inspection réussie ne prouve pas l’authenticité administrative. Une signature absente n’est pas suspecte. Une capture, un scan ou un export raster ne permet pas d’identifier sa source ni de prouver une retouche. Un verdict NORMAL signifie seulement qu’aucune anomalie significative n’a été détectée par les contrôles exécutés.</p>
           </div>
           <div class="hero-actions" data-reveal>
             <a class="button button-mint" href="detecteurs.html">Voir les détecteurs et leurs limites</a>

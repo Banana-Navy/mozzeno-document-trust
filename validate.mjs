@@ -107,7 +107,9 @@ for (const filename of pages.keys()) {
 }
 
 const demo = readFileSync(join(root, "demo.html"), "utf8");
-assert((demo.match(/data-demo-scenario=/g) || []).length === 5, "demo.html: cinq scénarios synthétiques attendus");
+assert(!/data-demo-(?:scenario|run|result)/.test(demo), "demo.html: simulation codée en dur encore présente");
+assert(demo.includes("data-real-console-link"), "demo.html: passerelle vers la console réelle absente");
+assert(!app.includes("demoScenarios"), "app.js: résultats codés en dur encore présents");
 
 const home = readFileSync(join(root, "index.html"), "utf8");
 assert(home.includes("Illustration · scénario synthétique"), "index.html: marquage synthétique du hero absent");

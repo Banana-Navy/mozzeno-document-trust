@@ -23,7 +23,7 @@
           <p class="eyebrow" style="margin-top:28px">Faits avant verdicts</p>
           <h1>Des contrôles spécialisés, jamais une boîte <span class="accent">noire.</span></h1>
           <p class="lead">Chaque module observe une dimension technique, retourne des faits structurés et peut s’abstenir. Aucun détecteur ne prend directement une action métier.</p>
-          <div class="status-pills"><span class="pill pill-delivered">6 familles M1</span><span class="pill pill-target">CV &amp; ML en cible</span><span class="pill pill-gate">TRUSTED non produit en M1</span></div>
+          <div class="status-pills"><span class="pill pill-delivered">PDF + rasters M1.1</span><span class="pill pill-target">CV &amp; ML en cible</span><span class="pill pill-gate">Authenticité non certifiée</span></div>
         </div>
       </section>
 
@@ -43,37 +43,37 @@
           </div>
           <div class="detector-grid">
             <article class="detector-card" data-detector-category="intake" data-reveal>
-              <div class="detector-code"><b>FMT</b><span class="pill pill-delivered">Livré M1</span></div>
+              <div class="detector-code"><b>FMT</b><span class="pill pill-delivered">Livré M1.1</span></div>
               <h3>Format et bornes</h3>
               <p>Décide si l’entrée peut être analysée sans extrapoler son contenu.</p>
-              <ul><li>Type application/pdf et en-tête attendu</li><li>15 MiB maximum configuré</li><li>Préfixes binaires suspects rejetés</li><li>INVALID_INPUT en cas de contenu hors contrat</li></ul>
+              <ul><li>PDF, PNG, JPEG, TIFF et WebP</li><li>Concordance MIME / magic bytes</li><li>15 MiB maximum et préfixes PDF suspects rejetés</li><li>INVALID_INPUT en cas de contenu hors contrat</li></ul>
             </article>
             <article class="detector-card" data-detector-category="pdf" data-reveal>
-              <div class="detector-code"><b>XREF</b><span class="pill pill-delivered">Livré M1</span></div>
+              <div class="detector-code"><b>XREF</b><span class="pill pill-delivered">Livré M1.1</span></div>
               <h3>Structure PDF</h3>
               <p>Extrait la provenance technique et les inventaires nécessaires aux autres analyses.</p>
               <ul><li>Métadonnées, producteur et créateur</li><li>Révisions incrémentales</li><li>Inventaires polices et images</li><li>Profils de pages et limites d’inventaire</li></ul>
             </article>
             <article class="detector-card" data-detector-category="pdf" data-reveal>
-              <div class="detector-code"><b>CLS</b><span class="pill pill-delivered">Livré M1</span></div>
+              <div class="detector-code"><b>CLS</b><span class="pill pill-delivered">Livré M1.1</span></div>
               <h3>Classification d’origine</h3>
               <p>Route le document selon la présence de texte natif et d’images de page.</p>
-              <ul><li>NATIVE_PDF</li><li>SCANNED_PDF</li><li>IMAGE_ONLY_PDF</li><li>Heuristique explicite, non modèle ML</li></ul>
+              <ul><li>NATIVE_PDF</li><li>SCANNED_PDF</li><li>IMAGE_ONLY_PDF</li><li>RASTER_INPUT pour une image directe</li></ul>
             </article>
             <article class="detector-card" data-detector-category="pdf" data-reveal>
-              <div class="detector-code"><b>SIG</b><span class="pill pill-delivered">Livré M1</span></div>
+              <div class="detector-code"><b>SIG</b><span class="pill pill-delivered">Livré M1.1</span></div>
               <h3>Signature numérique</h3>
               <p>Vérifie localement l’intégrité cryptographique et la couverture des octets.</p>
               <ul><li>Présence ou absence factuelle</li><li>Intégrité CMS hors ligne</li><li>Révision post-signature</li><li>Pas de révocation, Trusted Lists ou eIDAS</li></ul>
             </article>
             <article class="detector-card" data-detector-category="visual" data-reveal>
-              <div class="detector-code"><b>IMG</b><span class="pill pill-delivered">Livré M1</span></div>
-              <h3>Rendu et qualité</h3>
-              <p>Produit un dérivé raster sûr et un signal borné de faible résolution embarquée.</p>
-              <ul><li>Thumbnail PNG première page</li><li>pHash 64 bits</li><li>Pixels embarqués sous seuil explicite</li><li>Ni DPI, ni netteté, ni preuve de fraude</li></ul>
+              <div class="detector-code"><b>IMG</b><span class="pill pill-delivered">Livré M1.1</span></div>
+              <h3>Raster, rendu et qualité</h3>
+              <p>Valide une image directe dans des bornes explicites et produit un aperçu local, sans interpréter ses pixels comme une preuve d’origine.</p>
+              <ul><li>Décodage, format, dimensions, frames et alpha</li><li>Présence EXIF/XMP/ICC/texte/logiciel, jamais leurs valeurs libres</li><li>Thumbnail PNG et pHash 64 bits</li><li>INCONCLUSIVE + demande d’original pour tout RASTER_INPUT</li></ul>
             </article>
             <article class="detector-card" data-detector-category="serial" data-reveal>
-              <div class="detector-code"><b>SHA</b><span class="pill pill-delivered">Livré M1</span></div>
+              <div class="detector-code"><b>SHA</b><span class="pill pill-delivered">Livré M1.1</span></div>
               <h3>Doublon exact</h3>
               <p>Relie deux fichiers strictement identiques sans inférer pourquoi ils ont été réutilisés.</p>
               <ul><li>Index SHA-256</li><li>Correspondance binaire déterministe</li><li>Signal SERIAL_FRAUD fort</li><li>Contexte analyste toujours requis</li></ul>
@@ -105,7 +105,7 @@
           <div class="section-head" data-reveal>
             <p class="eyebrow">Contrat d’explication</p>
             <h2>Une anomalie localisée reste un signal, pas une condamnation.</h2>
-            <p>L’exemple ci-dessous montre le niveau de précision prévu. La zone est illustrative&nbsp;: la détection fine de police n’est pas encore implémentée dans le M1.</p>
+            <p>L’exemple ci-dessous montre le niveau de précision prévu. La zone est illustrative&nbsp;: la détection fine de police n’est pas encore implémentée dans le M1.1.</p>
           </div>
           <div class="indicator-example">
             <div class="document-mock" role="img" data-reveal aria-label="Document synthétique avec une zone illustrative localisée en page 1.">
@@ -129,7 +129,7 @@
                 <div><b>Identifiant</b><span>pdf.font.local_inconsistency.v1</span></div>
                 <div><b>Détecteur</b><span>typography · 1.0.0</span></div>
                 <div><b>Localisation</b><span>page 1 · bbox normalisée</span></div>
-                <div><b>État</b><span>Cible M3, non livré M1</span></div>
+                <div><b>État</b><span>Cible M3, non livré M1.1</span></div>
               </div>
             </article>
           </div>
@@ -153,14 +153,14 @@
             <div class="policy-rule warning"><b>07</b><span>Autre indicateur matériel</span><output>WARNING · REVUE</output></div>
             <div class="policy-rule"><b>08</b><span>Aucun indicateur matériel observé</span><output>NORMAL · NO ACTION</output></div>
           </div>
-          <div class="callout purple" style="margin-top:22px" data-reveal><p><strong>NORMAL signifie uniquement :</strong> aucune anomalie suffisamment significative n’a été détectée par les contrôles exécutés. Le verdict TRUSTED existe dans le contrat, mais le M1 ne le produit pas faute de signal positif fort avec confiance établie.</p></div>
+          <div class="callout purple" style="margin-top:22px" data-reveal><p><strong>NORMAL signifie uniquement :</strong> aucune anomalie suffisamment significative n’a été détectée par les contrôles exécutés. La console M1.1 ne propose pas TRUSTED&nbsp;; aucune chaîne de preuve positive ne permet aujourd’hui de certifier la source ou l’authenticité.</p></div>
         </div>
       </section>
 
       <section class="section-compact mint-section">
         <div class="shell decision-banner" data-reveal>
-          <div><h2>Voir le moteur réagir à cinq cas.</h2><p>La démonstration simule les résultats avec des scénarios synthétiques et ne permet aucun upload de document réel.</p></div>
-          <a class="button button-primary" href="demo.html">Lancer la démonstration</a>
+          <div><h2>Passer de l’explication au moteur réel.</h2><p>La page Console ne fabrique aucun verdict : elle ouvre le laboratoire FastAPI/React local et rappelle pourquoi la version publique ne reçoit aucun document.</p></div>
+          <a class="button button-primary" href="demo.html">Ouvrir la console</a>
         </div>
       </section>
     </main>
